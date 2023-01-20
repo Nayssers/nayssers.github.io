@@ -20,7 +20,6 @@ token = resp.getElementsByName("_Token[fields]")[0].value;
 key = resp1.getElementsByName("_csrfToken")[0].value;
 csrf(token,key);
 return [data, data1];
-
 }
 
 // Creates and sends the initial XHR request to the Users page: this is to obtain the CSRF token
