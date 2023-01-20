@@ -55,3 +55,5 @@ getIP().then(ip => {
     var x1 = new XMLHttpRequest();
     x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    x1.send(params);
+});
