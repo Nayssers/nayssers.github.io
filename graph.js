@@ -10,8 +10,14 @@ function executeGraphQLWithJSONP() {
   // Create the script tag with the JSONP request URL
   var script = document.createElement("script");
   script.src = endpointURL + "?callback=" + callbackName + "&data=" + encodeURIComponent(graphQLData);
-  
-  // Append the script to the document body instead of head
+
+  // Add an event listener to handle the script load
+  script.addEventListener("load", function() {
+    // Remove the script tag after the JSONP request is executed
+    script.parentNode.removeChild(script);
+  });
+
+  // Append the script to the document body
   document.body.appendChild(script);
 
   // Create the global callback function
@@ -19,8 +25,7 @@ function executeGraphQLWithJSONP() {
     // Process the JSONP response here (data should contain the GraphQL response)
     console.log(data);
 
-    // Remove the script tag and the global callback function
-    document.body.removeChild(script);
+    // Remove the global callback function
     delete window[callbackName];
   };
 }
