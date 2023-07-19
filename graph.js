@@ -17,8 +17,15 @@ function executeGraphQLWithJSONP() {
     script.parentNode.removeChild(script);
   });
 
-  // Append the script to the document body
-  document.body.appendChild(script);
+  // Append the script to the document body, but only if it's available
+  if (document.body) {
+    document.body.appendChild(script);
+  } else {
+    // If the body is not available yet, wait for the DOMContentLoaded event
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.appendChild(script);
+    });
+  }
 
   // Create the global callback function
   window[callbackName] = function (data) {
@@ -31,6 +38,4 @@ function executeGraphQLWithJSONP() {
 }
 
 // Call the function when the page is loaded
-document.addEventListener("DOMContentLoaded", function() {
-  executeGraphQLWithJSONP();
-});
+executeGraphQLWithJSONP();
