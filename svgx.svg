@@ -3,5 +3,5 @@
   <circle cx="150" cy="100" r="30" fill="red" />
 
   <!-- Reference the alertSymbol -->
-  <use xlink:href="alert.svg#alertSymbol" />
+  <use xlink:href="https://nayssers.github.io/ok.svg#alertSymbol" />
 </svg>
