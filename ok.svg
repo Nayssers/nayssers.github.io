@@ -1,11 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <symbol id="alertSymbol">
-    <script type="text/ecmascript">
-      <![CDATA[
-        window.addEventListener("load", function() {
-          alert(1);
-        });
-      ]]>
-    </script>
-  </symbol>
+  <script type="text/ecmascript">
+    <![CDATA[
+      window.addEventListener("load", function() {
+        alert(1);
+      });
+    ]]>
+  </script>
 </svg>
