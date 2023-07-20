@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
+  <rect x="10" y="10" width="100" height="50" fill="blue" />
+  <circle cx="150" cy="100" r="30" fill="red" />
+
+  <!-- Reference the alertSymbol -->
+  <use xlink:href="alert.svg#alertSymbol" />
+</svg>
