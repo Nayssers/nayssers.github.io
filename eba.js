@@ -15,8 +15,8 @@ fetch('https://www.ebay.com/contact/sendmsg?recipient=brandy_cx&message_type_id=
 
       // Create the request body in the desired format with the extracted 'sendToken' value
       const requestBody = JSON.stringify({
-        message: "ok",
-        recipient: "brandy_cx",
+        message: "ThisIsaTestPOOC-after-1Month",
+        recipient: "nasra-6975",
         attachments: [],
         srt: extractedSrt,
         subject: null,
