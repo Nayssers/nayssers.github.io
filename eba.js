@@ -1,5 +1,5 @@
 // Fetch the 'sendToken' value from the source code
-fetch('https://www.ebay.com/contact/sendmsg?recipient=brandy_cx&message_type_id=14')
+fetch('https://www.ebay.com/contact/sendmsg?recipient=nasra-6975&message_type_id=14')
   .then(response => response.text())
   .then(html => {
     // Parse the HTML to find the 'srt' value
