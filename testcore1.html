@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Redirect</title>
+</head>
+<body>
+    <script>
+        // Step 1: Set the cookie for your domain
+        document.cookie = "test=yourCookieValue; path=/; domain=nayssers.github.io; secure; HttpOnly";
+
+        // Step 2: Perform a CORS request to the external domain with credentials
+        fetch('https://static.okx.com', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Access-Control-Allow-Origin': 'https://nayssers.github.io',
+                'Access-Control-Allow-Credentials': 'true'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Redirect to the external domain
+                window.location.href = 'https://csboss.okex.org/newboss/home';
+            } else {
+                console.error('Failed to make the CORS request');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
