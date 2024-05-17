@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Cookies</title>
+</head>
+<body>
+    <h1>Set Cookies</h1>
+    <button onclick="setCookie()">Set Cookie</button>
+
+    <script>
+        function setCookie() {
+            // Set the cookie with a name and value
+            document.cookie = "testCookie=testValue; path=/; domain=.okex.org; secure; HttpOnly";
+
+            // Check if the cookie is set
+            if (document.cookie.indexOf("testCookie") != -1) {
+                alert("Cookie set successfully!");
+            } else {
+                alert("Failed to set cookie!");
+            }
+        }
+    </script>
+</body>
+</html>
