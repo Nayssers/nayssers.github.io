@@ -1,14 +1,14 @@
-<!-- Save this as payload.html in the same GitHub Pages repository -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Payload Test</title>
+    <script>
+        // Attempt to execute the payload by replacing the URL with a `javascript:` payload
+        location.replace('javascript:alert(19)');
+    </script>
 </head>
 <body>
-    <h1>Redirected Payload</h1>
-    <script>
-        alert('XSS Payload Executed');
-    </script>
+    <h1>Redirecting...</h1>
 </body>
 </html>
