@@ -1,0 +1,13 @@
+<script>
+fetch("https://www.okx.com/v3/users/mobile/subaccount/switchAccount", {
+    method: "POST",
+    headers: {
+        "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJleDEyMDE3Mjk2NDY4OTY0NzUxOEM2Q0FBQThBMzE0NEIzMXFzemEiLCJ1aWQiOiJNdHp3dkxqYktwclpJb0d4NUZIaHF3PT0iLCJzdGEiOjAsIm1pZCI6Ik10end2TGpiS3ByWklvR3g1RkhocXc9PSIsImlhdCI6MTczMDEzNzA4NSwiZXhwIjoxNzMwNzQxODg1LCJiaWQiOjAsImRvbSI6Ind3dy5va3guY29tIiwiZWlkIjoxLCJpc3MiOiJva2NvaW4iLCJkaWQiOiJVbUNWaHdZOGZIbVR0MnF0ZHNJQ0FuQ0dGbXJxRXR2SUhqdGg4eEFkaEw4OTJtTUh3OTFMZWlmRmt3OFJ4a1ZqIiwibGlkIjoiTXR6d3ZMamJLcHJaSW9HeDVGSGhxdz09IiwidWZiIjoiUFR5QThXMDl6RlVKQkdKNllSTkdZdz09IiwidXBiIjoiaUJyYTJWaE5va3lSaWh4aUovM3pFdz09Iiwia3ljIjoyLCJreWkiOiJEZ3hsd0xJSHR0TVM2VEV3Um5BUjVyZFRwQ1pLZzUvNktuMW14YWlyWkNtL2o5Y0JRc0x5SzZXYkhSWjNQL2pzN3lkRi9ZTkNHUVcvNXlpNFZCelQzUT09IiwidmVyIjoxLCJjbHQiOjEsInN1YiI6Ijk2RTNDREFBN0VGNzA5RUE0NEI4MUJGMTg2RUUzQzZCIn0.VM8QlBMp4TwQNhXDKLjYFrK5eqsiynXEnWaCn47P5wXZgBSBkYqZ494gmAk7oi_UNIFXwWZ3gilnZpwIFqhrdQ",
+        "Content-Type": "application/json; charset=utf-8"
+    },
+    body: JSON.stringify({"loginId": "testio"})
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error("Error:", error));
+</script>
