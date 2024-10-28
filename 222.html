@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test for OKX API</title>
+</head>
+<body>
+    <h2>Testing CORS Access to OKX API</h2>
+    <button onclick="testCORS()">Click to Test</button>
+
+    <script>
+        function testCORS() {
+            fetch('https://www.okx.com/priapi/v1/nft/recLocConfigs', {
+                method: 'GET',
+                credentials: 'include'  // Include cookies with request
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();  // Convert response to JSON if accessible
+                } else {
+                    throw new Error('Response blocked or denied.');
+                }
+            })
+            .then(data => {
+                console.log('Response Data:', data);
+                alert('Success! Data received. Check console for details.');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Request blocked or denied. Check console for error details.');
+            });
+        }
+    </script>
+</body>
+</html>
