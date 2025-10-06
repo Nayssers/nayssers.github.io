@@ -1,3 +1,3 @@
 console.log('My JS loaded successfully!');
-alert('XSS executed from my.js');
+alert('STORED-XSS-BYPASS-IMPERVA');
 export default {};
