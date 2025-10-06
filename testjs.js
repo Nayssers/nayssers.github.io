@@ -1,1 +1,1 @@
-alert(JSON.stringify(Object.keys(window)))c
+alert(JSON.stringify(Object.keys(window)))
