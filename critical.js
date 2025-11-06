@@ -79,8 +79,8 @@
     addField('utf8', '✓');
     addField('_method', 'patch');
     addField('authenticity_token', csrfToken);
-    addField('page[title]', 'Fully Automated Test');
-    addField('page[slug]', 'fully-automated');
+    addField('page[title]', 'Hacked-with-stored-xss');
+    addField('page[slug]', 'Hacked-with-stored-xss');
     addField('page[blocks][0][block_type]', 'text');
     addField('page[blocks][0][redis_hash]', '20be59d1c8a50ac97fb260511819b47a');
     addField('page[blocks][0][position]', '1');
