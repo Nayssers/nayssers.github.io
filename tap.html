@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<style>html,body{margin:0;background:#000;color:#0f0;font:16px monospace}
+button{display:block;width:90%;margin:20px auto;padding:24px;font:18px monospace;
+background:#3573ff;color:#fff;border:0;border-radius:10px;touch-action:manipulation}
+pre{padding:12px;white-space:pre-wrap}</style>
+</head><body>
+<button id=b1>TAP ME #1 (click)</button>
+<button id=b2>TAP ME #2 (touchend)</button>
+<button id=b3>TAP ME #3 (pointerdown)</button>
+<pre id=log>load ok\n</pre>
+<script>
+var C='https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/c';
+function w(s){document.getElementById('log').textContent+=s+'\n';try{navigator.sendBeacon(C+'?l='+encodeURIComponent(s))}catch(e){}}
+w('script ran, time='+Date.now());
+document.getElementById('b1').addEventListener('click',function(){w('TAPPED_1_click')});
+document.getElementById('b2').addEventListener('touchend',function(){w('TAPPED_2_touchend')});
+document.getElementById('b3').addEventListener('pointerdown',function(){w('TAPPED_3_pointerdown')});
+</script></body></html>
