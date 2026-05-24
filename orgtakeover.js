@@ -4,8 +4,8 @@
 
 (async () => {
   // ---------------- CONFIG ----------------
-  const email = 'naysser+testpoc1234567@bugcrowdninja.com'; // <<-- changed as requested
-  const firstName = 'Testing';
+  const email = 'naysser+pizza1@bugcrowdninja.com'; // <<-- changed as requested
+  const firstName = 'Pizza';
   const lastName = 'POC';
   const gender = 'M'; // 'M' or 'F' depending on site values
   const INVITE_WAIT_MS = 5500;        // wait after invite for server-side processing
