@@ -4,7 +4,7 @@
 
 (async () => {
   // ---------------- CONFIG ----------------
-  const email = 'naysser+pizza1@bugcrowdninja.com'; // <<-- changed as requested
+  const email = 'naysser+pizza12@bugcrowdninja.com'; // <<-- changed as requested
   const firstName = 'Pizza';
   const lastName = 'POC';
   const gender = 'M'; // 'M' or 'F' depending on site values
