@@ -1,0 +1,8 @@
+<iframe id=t src="https://partners.acronis.com/communicate/email/SOMEDRAFTID/editor"
+        style="position:fixed;left:-9999px"></iframe>
+<script>
+  document.getElementById('t').onload = () => {
+    document.getElementById('t').contentWindow.postMessage("SendAMPEmail", "*");
+    // or "PublishSocialTemplate"
+  };
+</script>
