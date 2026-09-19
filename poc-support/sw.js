@@ -1,6 +1,6 @@
 'use strict';
 
-const OAST_BASE = 'https://erfqqzdagbcinnxaylnh2h036s9jiqe6u.oast.fun';
+const OAST_BASE = 'https://yjxmrxgoadhrclodvdopki2pwnz1jsvsy.oast.fun';
 
 self.addEventListener('install', event => {
   event.waitUntil(self.skipWaiting());
