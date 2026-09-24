@@ -1,0 +1,35 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>CAT Firefox User-Agent CORS probe</title>
+<style>
+  body { font: 16px/1.45 system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
+  button { padding: .7rem 1rem; font-weight: 650; }
+  pre { white-space: pre-wrap; padding: 1rem; background: #f4f4f4; }
+</style>
+<h1>CAT Firefox User-Agent CORS probe</h1>
+<p>This performs a non-mutating GET with a script-supplied User-Agent. Firefox should preflight it; Chrome normally removes the custom header.</p>
+<button id="run" type="button">Run non-mutating CORS probe</button>
+<pre id="output">Ready. No request has been sent.</pre>
+<script>
+  const endpoint = "https://www.cat.com/content/catdotcom/en_MX/account/myaccount/account-information/jcr:content/root/responsivegrid_1010483686/userprofile.updateUserProfile.html";
+  const output = document.querySelector("#output");
+
+  document.querySelector("#run").addEventListener("click", async () => {
+    output.textContent = "Running…";
+    try {
+      const response = await fetch(endpoint, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        cache: "no-store",
+        headers: {"User-Agent": "CAT-CORS-UA-PROBE"},
+      });
+      output.textContent = "Fetch completed. HTTP " + response.status + ".\n" +
+        "Response type: " + response.type + ".\n" +
+        "CORS permitted the preflight and actual GET. Capture the OPTIONS response to determine whether POST is also allowed.";
+    } catch (error) {
+      output.textContent = "Fetch blocked or failed: " + error.name + ": " + error.message;
+    }
+  });
+</script>
