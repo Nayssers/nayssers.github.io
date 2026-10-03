@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-03T01:56:54.994Z",
+  "generated_at": "2026-10-03T01:57:58.276Z",
   "oast": "https://ioczmasuxkcvwrggbffg1csnwsynanrej.oast.fun",
-  "pages": "https://nayssers.github.io/orange-svg-parser-matrix-20261003",
+  "pages": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003",
   "tests": [
     {
       "name": "01-xxe-general-entity.svg",
       "category": "server-xml",
       "trigger": "External general entity",
       "expected": "A callback during upload/transform indicates external entity resolution.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/01-xxe-general-entity.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/01-xxe-general-entity.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/01-xxe-general-entity.svg"
     },
     {
@@ -16,7 +16,7 @@
       "category": "server-xml",
       "trigger": "External DTD subset and general entity",
       "expected": "Fetch of external-subset.dtd proves external subset loading; the numbered OAST callback proves its entity was expanded.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/02-xxe-external-subset.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/02-xxe-external-subset.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/02-xxe-external-subset.svg"
     },
     {
@@ -24,7 +24,7 @@
       "category": "server-xml",
       "trigger": "Remote parameter entity DTD",
       "expected": "GitHub Pages fetch plus numbered OAST callback indicates parameter-entity processing.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/03-xxe-parameter-entity.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/03-xxe-parameter-entity.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/03-xxe-parameter-entity.svg"
     },
     {
@@ -32,7 +32,7 @@
       "category": "server-xml",
       "trigger": "PUBLIC external identifier with SYSTEM fallback",
       "expected": "OAST callback indicates external subset retrieval through the system identifier.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/04-xxe-public-id.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/04-xxe-public-id.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/04-xxe-public-id.svg"
     },
     {
@@ -40,7 +40,7 @@
       "category": "server-xml",
       "trigger": "XInclude parse=xml",
       "expected": "Callback during server processing indicates XInclude support.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/05-xinclude-xml.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/05-xinclude-xml.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/05-xinclude-xml.svg"
     },
     {
@@ -48,7 +48,7 @@
       "category": "server-xml",
       "trigger": "XInclude parse=text",
       "expected": "Callback during server processing indicates XInclude text retrieval.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/06-xinclude-text.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/06-xinclude-text.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/06-xinclude-text.svg"
     },
     {
@@ -56,7 +56,7 @@
       "category": "stylesheet",
       "trigger": "xml-stylesheet processing instruction",
       "expected": "May be fetched by a renderer or browser; timing and User-Agent distinguish them.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/07-xml-stylesheet.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/07-xml-stylesheet.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/07-xml-stylesheet.svg"
     },
     {
@@ -64,7 +64,7 @@
       "category": "stylesheet",
       "trigger": "CSS @import",
       "expected": "Usually renderer/browser resource loading, not XXE.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/08-css-import.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/08-css-import.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/08-css-import.svg"
     },
     {
@@ -72,7 +72,7 @@
       "category": "stylesheet",
       "trigger": "CSS background-image URL",
       "expected": "Usually renderer/browser resource loading, not XXE.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/09-css-background.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/09-css-background.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/09-css-background.svg"
     },
     {
@@ -80,7 +80,7 @@
       "category": "stylesheet",
       "trigger": "CSS @font-face URL",
       "expected": "A renderer may fetch the font when laying out text.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/10-css-font-face.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/10-css-font-face.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/10-css-font-face.svg"
     },
     {
@@ -88,7 +88,7 @@
       "category": "svg-resource",
       "trigger": "SVG 2 image href",
       "expected": "Renderer or browser external-image request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/11-image-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/11-image-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/11-image-href.svg"
     },
     {
@@ -96,7 +96,7 @@
       "category": "svg-resource",
       "trigger": "SVG 1.1 image xlink:href",
       "expected": "Renderer or browser external-image request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/12-image-xlink.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/12-image-xlink.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/12-image-xlink.svg"
     },
     {
@@ -104,7 +104,7 @@
       "category": "svg-resource",
       "trigger": "External use href",
       "expected": "Renderer/browser external SVG-document request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/13-use-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/13-use-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/13-use-href.svg"
     },
     {
@@ -112,7 +112,7 @@
       "category": "svg-resource",
       "trigger": "External use xlink:href",
       "expected": "Legacy renderer/browser external SVG-document request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/14-use-xlink.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/14-use-xlink.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/14-use-xlink.svg"
     },
     {
@@ -120,7 +120,7 @@
       "category": "svg-resource",
       "trigger": "Filter feImage href",
       "expected": "Image renderer may fetch while evaluating the filter.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/15-feimage.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/15-feimage.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/15-feimage.svg"
     },
     {
@@ -128,7 +128,7 @@
       "category": "browser-active",
       "trigger": "SVG script href",
       "expected": "Normally browser document-mode only; this is not XXE.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/16-script-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/16-script-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/16-script-href.svg"
     },
     {
@@ -136,7 +136,7 @@
       "category": "browser-active",
       "trigger": "Legacy SVG script xlink:href",
       "expected": "Normally browser document-mode only; this is not XXE.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/17-script-xlink.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/17-script-xlink.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/17-script-xlink.svg"
     },
     {
@@ -144,7 +144,7 @@
       "category": "browser-active",
       "trigger": "foreignObject HTML img",
       "expected": "Browser or HTML-capable renderer request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/18-foreignobject-img.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/18-foreignobject-img.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/18-foreignobject-img.svg"
     },
     {
@@ -152,7 +152,7 @@
       "category": "browser-active",
       "trigger": "foreignObject HTML iframe",
       "expected": "Typically browser document-mode only.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/19-foreignobject-iframe.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/19-foreignobject-iframe.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/19-foreignobject-iframe.svg"
     },
     {
@@ -160,7 +160,7 @@
       "category": "browser-active",
       "trigger": "foreignObject HTML object",
       "expected": "Typically browser document-mode only.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/20-foreignobject-object.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/20-foreignobject-object.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/20-foreignobject-object.svg"
     },
     {
@@ -168,7 +168,7 @@
       "category": "svg-resource",
       "trigger": "HTML video in foreignObject",
       "expected": "Browser or multimedia-capable renderer request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/21-video-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/21-video-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/21-video-href.svg"
     },
     {
@@ -176,7 +176,7 @@
       "category": "svg-resource",
       "trigger": "HTML audio in foreignObject",
       "expected": "Browser or multimedia-capable renderer request.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/22-audio-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/22-audio-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/22-audio-href.svg"
     },
     {
@@ -184,7 +184,7 @@
       "category": "svg-resource",
       "trigger": "CSS cursor URL",
       "expected": "Interactive browser-only in most implementations.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/23-cursor-href.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/23-cursor-href.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/23-cursor-href.svg"
     },
     {
@@ -192,7 +192,7 @@
       "category": "svg-resource",
       "trigger": "xml:base plus relative image URL",
       "expected": "Tests base-URI resolution by a renderer.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/24-xml-base-relative-image.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/24-xml-base-relative-image.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/24-xml-base-relative-image.svg"
     },
     {
@@ -200,7 +200,7 @@
       "category": "content-type",
       "trigger": "General entity with .xml extension",
       "expected": "Same XML construct served under an XML-oriented MIME type.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/25-xxe-mime-xml.xml",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/25-xxe-mime-xml.xml",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/25-xxe-mime-xml.xml"
     },
     {
@@ -208,7 +208,7 @@
       "category": "content-type",
       "trigger": "General entity with .txt extension",
       "expected": "Tests whether the receiver sniffs XML despite text/plain.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/26-xxe-mime-text.txt",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/26-xxe-mime-text.txt",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/26-xxe-mime-text.txt"
     },
     {
@@ -216,7 +216,7 @@
       "category": "content-type",
       "trigger": "General entity with .html extension",
       "expected": "Tests whether the receiver parses by content rather than MIME.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/27-xxe-mime-html.html",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/27-xxe-mime-html.html",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/27-xxe-mime-html.html"
     },
     {
@@ -224,7 +224,7 @@
       "category": "content-type",
       "trigger": "Uppercase SVG extension",
       "expected": "Tests case-sensitive extension filters.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/28-xxe-uppercase.SVG",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/28-xxe-uppercase.SVG",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/28-xxe-uppercase.SVG"
     },
     {
@@ -232,7 +232,7 @@
       "category": "encoding",
       "trigger": "UTF-8 BOM plus general entity",
       "expected": "Tests BOM-tolerant XML parsing.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/29-xxe-utf8-bom.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/29-xxe-utf8-bom.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/29-xxe-utf8-bom.svg"
     },
     {
@@ -240,7 +240,7 @@
       "category": "encoding",
       "trigger": "UTF-16LE BOM plus general entity",
       "expected": "Tests UTF-16LE XML parsing.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/30-xxe-utf16le.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/30-xxe-utf16le.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/30-xxe-utf16le.svg"
     },
     {
@@ -248,7 +248,7 @@
       "category": "encoding",
       "trigger": "UTF-16BE BOM plus general entity",
       "expected": "Tests UTF-16BE XML parsing.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/31-xxe-utf16be.svg",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/31-xxe-utf16be.svg",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/31-xxe-utf16be.svg"
     },
     {
@@ -256,7 +256,7 @@
       "category": "encoding",
       "trigger": "Gzip-compressed SVG with general entity",
       "expected": "Tests SVGZ decompression followed by XML parsing.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/32-xxe-compressed.svgz",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/32-xxe-compressed.svgz",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/32-xxe-compressed.svgz"
     },
     {
@@ -264,7 +264,7 @@
       "category": "support",
       "trigger": "External DTD used by case 02",
       "expected": "Supporting DTD.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/external-subset.dtd",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/external-subset.dtd",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/external-subset.dtd"
     },
     {
@@ -272,7 +272,7 @@
       "category": "support",
       "trigger": "External parameter-entity DTD used by case 03",
       "expected": "Supporting DTD.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/parameter-entity.dtd",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/parameter-entity.dtd",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/parameter-entity.dtd"
     },
     {
@@ -280,7 +280,7 @@
       "category": "support",
       "trigger": "External CSS callback",
       "expected": "Supporting stylesheet.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/external-style.css",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/external-style.css",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/external-style.css"
     },
     {
@@ -288,7 +288,7 @@
       "category": "support",
       "trigger": "Browser-only script callback",
       "expected": "Supporting browser canary; not an XXE test.",
-      "url": "https://nayssers.github.io/orange-svg-parser-matrix-20261003/browser-script.js",
+      "url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/browser-script.js",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/browser-script.js"
     }
   ]

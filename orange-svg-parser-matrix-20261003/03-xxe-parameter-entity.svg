@@ -1,3 +1,3 @@
 <?xml version="1.0"?>
-<!DOCTYPE svg [<!ENTITY % remote SYSTEM "https://nayssers.github.io/orange-svg-parser-matrix-20261003/parameter-entity.dtd">%remote;]>
+<!DOCTYPE svg [<!ENTITY % remote SYSTEM "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/parameter-entity.dtd">%remote;]>
 <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40"><text x="2" y="20">parameter entity probe</text></svg>
