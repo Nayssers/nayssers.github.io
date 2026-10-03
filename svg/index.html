@@ -34,7 +34,15 @@
 <tr><td><a href="30-xxe-utf16le.svg">30-xxe-utf16le.svg</a></td><td>encoding</td><td>UTF-16LE BOM plus general entity</td><td>Tests UTF-16LE XML parsing.</td></tr>
 <tr><td><a href="31-xxe-utf16be.svg">31-xxe-utf16be.svg</a></td><td>encoding</td><td>UTF-16BE BOM plus general entity</td><td>Tests UTF-16BE XML parsing.</td></tr>
 <tr><td><a href="32-xxe-compressed.svgz">32-xxe-compressed.svgz</a></td><td>encoding</td><td>Gzip-compressed SVG with general entity</td><td>Tests SVGZ decompression followed by XML parsing.</td></tr>
+<tr><td><a href="33-pure-xml-general.xml">33-pure-xml-general.xml</a></td><td>server-xml</td><td>Generic XML external general entity</td><td>A callback during submission demonstrates entity expansion by a generic XML parser.</td></tr>
+<tr><td><a href="34-pure-xml-external-dtd.xml">34-pure-xml-external-dtd.xml</a></td><td>server-xml</td><td>Generic XML external DTD</td><td>A fetch of the DTD and then its numbered OAST path demonstrates external-subset processing.</td></tr>
+<tr><td><a href="35-pure-xml-xinclude.xml">35-pure-xml-xinclude.xml</a></td><td>server-xml</td><td>Generic XML XInclude</td><td>A callback demonstrates an XInclude processing stage, which is separate from ordinary XML parsing.</td></tr>
+<tr><td><a href="36-soap-xxe.xml">36-soap-xxe.xml</a></td><td>server-xml</td><td>SOAP-shaped XML external entity</td><td>Tests applications that select a SOAP parser based on document structure.</td></tr>
+<tr><td><a href="37-rss-xxe.xml">37-rss-xxe.xml</a></td><td>server-xml</td><td>RSS-shaped XML external entity</td><td>Tests feed/import processors; callback indicates server-side entity expansion.</td></tr>
+<tr><td><a href="38-xhtml-xxe.xhtml">38-xhtml-xxe.xhtml</a></td><td>server-xml</td><td>XHTML-shaped XML external entity</td><td>Tests XML-mode XHTML parsing rather than HTML parsing.</td></tr>
+<tr><td><a href="39-pure-xml-stylesheet.xml">39-pure-xml-stylesheet.xml</a></td><td>stylesheet</td><td>Generic XML stylesheet processing instruction</td><td>Usually indicates a renderer or browser stage, not entity expansion.</td></tr>
 <tr><td><a href="external-subset.dtd">external-subset.dtd</a></td><td>support</td><td>External DTD used by case 02</td><td>Supporting DTD.</td></tr>
 <tr><td><a href="parameter-entity.dtd">parameter-entity.dtd</a></td><td>support</td><td>External parameter-entity DTD used by case 03</td><td>Supporting DTD.</td></tr>
+<tr><td><a href="pure-xml-external.dtd">pure-xml-external.dtd</a></td><td>support</td><td>External DTD used by case 34</td><td>Supporting DTD for the generic XML case.</td></tr>
 <tr><td><a href="external-style.css">external-style.css</a></td><td>support</td><td>External CSS callback</td><td>Supporting stylesheet.</td></tr>
 <tr><td><a href="browser-script.js">browser-script.js</a></td><td>support</td><td>Browser-only script callback</td><td>Supporting browser canary; not an XXE test.</td></tr></tbody></table></body></html>

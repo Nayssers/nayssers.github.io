@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T02:01:55.242Z",
+  "generated_at": "2026-10-03T02:08:41.790Z",
   "oast": "https://ioczmasuxkcvwrggbffg1csnwsynanrej.oast.fun",
   "pages": "https://nayssers.github.io/svg",
   "tests": [
@@ -260,6 +260,62 @@
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/32-xxe-compressed.svgz"
     },
     {
+      "name": "33-pure-xml-general.xml",
+      "category": "server-xml",
+      "trigger": "Generic XML external general entity",
+      "expected": "A callback during submission demonstrates entity expansion by a generic XML parser.",
+      "url": "https://nayssers.github.io/svg/33-pure-xml-general.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/33-pure-xml-general.xml"
+    },
+    {
+      "name": "34-pure-xml-external-dtd.xml",
+      "category": "server-xml",
+      "trigger": "Generic XML external DTD",
+      "expected": "A fetch of the DTD and then its numbered OAST path demonstrates external-subset processing.",
+      "url": "https://nayssers.github.io/svg/34-pure-xml-external-dtd.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/34-pure-xml-external-dtd.xml"
+    },
+    {
+      "name": "35-pure-xml-xinclude.xml",
+      "category": "server-xml",
+      "trigger": "Generic XML XInclude",
+      "expected": "A callback demonstrates an XInclude processing stage, which is separate from ordinary XML parsing.",
+      "url": "https://nayssers.github.io/svg/35-pure-xml-xinclude.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/35-pure-xml-xinclude.xml"
+    },
+    {
+      "name": "36-soap-xxe.xml",
+      "category": "server-xml",
+      "trigger": "SOAP-shaped XML external entity",
+      "expected": "Tests applications that select a SOAP parser based on document structure.",
+      "url": "https://nayssers.github.io/svg/36-soap-xxe.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/36-soap-xxe.xml"
+    },
+    {
+      "name": "37-rss-xxe.xml",
+      "category": "server-xml",
+      "trigger": "RSS-shaped XML external entity",
+      "expected": "Tests feed/import processors; callback indicates server-side entity expansion.",
+      "url": "https://nayssers.github.io/svg/37-rss-xxe.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/37-rss-xxe.xml"
+    },
+    {
+      "name": "38-xhtml-xxe.xhtml",
+      "category": "server-xml",
+      "trigger": "XHTML-shaped XML external entity",
+      "expected": "Tests XML-mode XHTML parsing rather than HTML parsing.",
+      "url": "https://nayssers.github.io/svg/38-xhtml-xxe.xhtml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/38-xhtml-xxe.xhtml"
+    },
+    {
+      "name": "39-pure-xml-stylesheet.xml",
+      "category": "stylesheet",
+      "trigger": "Generic XML stylesheet processing instruction",
+      "expected": "Usually indicates a renderer or browser stage, not entity expansion.",
+      "url": "https://nayssers.github.io/svg/39-pure-xml-stylesheet.xml",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/39-pure-xml-stylesheet.xml"
+    },
+    {
       "name": "external-subset.dtd",
       "category": "support",
       "trigger": "External DTD used by case 02",
@@ -274,6 +330,14 @@
       "expected": "Supporting DTD.",
       "url": "https://nayssers.github.io/svg/parameter-entity.dtd",
       "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/parameter-entity.dtd"
+    },
+    {
+      "name": "pure-xml-external.dtd",
+      "category": "support",
+      "trigger": "External DTD used by case 34",
+      "expected": "Supporting DTD for the generic XML case.",
+      "url": "https://nayssers.github.io/svg/pure-xml-external.dtd",
+      "raw_url": "https://raw.githubusercontent.com/Nayssers/nayssers.github.io/main/orange-svg-parser-matrix-20261003/pure-xml-external.dtd"
     },
     {
       "name": "external-style.css",

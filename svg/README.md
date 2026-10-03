@@ -43,8 +43,16 @@ An OAST callback is meaningful only when correlated with the request timing and 
 | [30-xxe-utf16le.svg](30-xxe-utf16le.svg) | encoding | UTF-16LE BOM plus general entity | Tests UTF-16LE XML parsing. |
 | [31-xxe-utf16be.svg](31-xxe-utf16be.svg) | encoding | UTF-16BE BOM plus general entity | Tests UTF-16BE XML parsing. |
 | [32-xxe-compressed.svgz](32-xxe-compressed.svgz) | encoding | Gzip-compressed SVG with general entity | Tests SVGZ decompression followed by XML parsing. |
+| [33-pure-xml-general.xml](33-pure-xml-general.xml) | server-xml | Generic XML external general entity | A callback during submission demonstrates entity expansion by a generic XML parser. |
+| [34-pure-xml-external-dtd.xml](34-pure-xml-external-dtd.xml) | server-xml | Generic XML external DTD | A fetch of the DTD and then its numbered OAST path demonstrates external-subset processing. |
+| [35-pure-xml-xinclude.xml](35-pure-xml-xinclude.xml) | server-xml | Generic XML XInclude | A callback demonstrates an XInclude processing stage, which is separate from ordinary XML parsing. |
+| [36-soap-xxe.xml](36-soap-xxe.xml) | server-xml | SOAP-shaped XML external entity | Tests applications that select a SOAP parser based on document structure. |
+| [37-rss-xxe.xml](37-rss-xxe.xml) | server-xml | RSS-shaped XML external entity | Tests feed/import processors; callback indicates server-side entity expansion. |
+| [38-xhtml-xxe.xhtml](38-xhtml-xxe.xhtml) | server-xml | XHTML-shaped XML external entity | Tests XML-mode XHTML parsing rather than HTML parsing. |
+| [39-pure-xml-stylesheet.xml](39-pure-xml-stylesheet.xml) | stylesheet | Generic XML stylesheet processing instruction | Usually indicates a renderer or browser stage, not entity expansion. |
 | [external-subset.dtd](external-subset.dtd) | support | External DTD used by case 02 | Supporting DTD. |
 | [parameter-entity.dtd](parameter-entity.dtd) | support | External parameter-entity DTD used by case 03 | Supporting DTD. |
+| [pure-xml-external.dtd](pure-xml-external.dtd) | support | External DTD used by case 34 | Supporting DTD for the generic XML case. |
 | [external-style.css](external-style.css) | support | External CSS callback | Supporting stylesheet. |
 | [browser-script.js](browser-script.js) | support | Browser-only script callback | Supporting browser canary; not an XXE test. |
 
