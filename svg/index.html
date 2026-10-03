@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SVG/XML parser canary matrix</title><style>body{font:16px system-ui;margin:2rem;line-height:1.4}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bbb;padding:.45rem;text-align:left}th{background:#eee}code{background:#eee;padding:.1rem .25rem}</style></head>
+<body><h1>SVG/XML parser canary matrix</h1><p>Harmless callback-only probes for <code>https://ioczmasuxkcvwrggbffg1csnwsynanrej.oast.fun</code>. Opening browser-active files can create browser-side callbacks; correlate timing and User-Agent before treating a hit as server-side.</p>
+<table><thead><tr><th>File</th><th>Class</th><th>Mechanism</th><th>Interpretation</th></tr></thead><tbody><tr><td><a href="01-xxe-general-entity.svg">01-xxe-general-entity.svg</a></td><td>server-xml</td><td>External general entity</td><td>A callback during upload/transform indicates external entity resolution.</td></tr>
+<tr><td><a href="02-xxe-external-subset.svg">02-xxe-external-subset.svg</a></td><td>server-xml</td><td>External DTD subset and general entity</td><td>Fetch of external-subset.dtd proves external subset loading; the numbered OAST callback proves its entity was expanded.</td></tr>
+<tr><td><a href="03-xxe-parameter-entity.svg">03-xxe-parameter-entity.svg</a></td><td>server-xml</td><td>Remote parameter entity DTD</td><td>GitHub Pages fetch plus numbered OAST callback indicates parameter-entity processing.</td></tr>
+<tr><td><a href="04-xxe-public-id.svg">04-xxe-public-id.svg</a></td><td>server-xml</td><td>PUBLIC external identifier with SYSTEM fallback</td><td>OAST callback indicates external subset retrieval through the system identifier.</td></tr>
+<tr><td><a href="05-xinclude-xml.svg">05-xinclude-xml.svg</a></td><td>server-xml</td><td>XInclude parse=xml</td><td>Callback during server processing indicates XInclude support.</td></tr>
+<tr><td><a href="06-xinclude-text.svg">06-xinclude-text.svg</a></td><td>server-xml</td><td>XInclude parse=text</td><td>Callback during server processing indicates XInclude text retrieval.</td></tr>
+<tr><td><a href="07-xml-stylesheet.svg">07-xml-stylesheet.svg</a></td><td>stylesheet</td><td>xml-stylesheet processing instruction</td><td>May be fetched by a renderer or browser; timing and User-Agent distinguish them.</td></tr>
+<tr><td><a href="08-css-import.svg">08-css-import.svg</a></td><td>stylesheet</td><td>CSS @import</td><td>Usually renderer/browser resource loading, not XXE.</td></tr>
+<tr><td><a href="09-css-background.svg">09-css-background.svg</a></td><td>stylesheet</td><td>CSS background-image URL</td><td>Usually renderer/browser resource loading, not XXE.</td></tr>
+<tr><td><a href="10-css-font-face.svg">10-css-font-face.svg</a></td><td>stylesheet</td><td>CSS @font-face URL</td><td>A renderer may fetch the font when laying out text.</td></tr>
+<tr><td><a href="11-image-href.svg">11-image-href.svg</a></td><td>svg-resource</td><td>SVG 2 image href</td><td>Renderer or browser external-image request.</td></tr>
+<tr><td><a href="12-image-xlink.svg">12-image-xlink.svg</a></td><td>svg-resource</td><td>SVG 1.1 image xlink:href</td><td>Renderer or browser external-image request.</td></tr>
+<tr><td><a href="13-use-href.svg">13-use-href.svg</a></td><td>svg-resource</td><td>External use href</td><td>Renderer/browser external SVG-document request.</td></tr>
+<tr><td><a href="14-use-xlink.svg">14-use-xlink.svg</a></td><td>svg-resource</td><td>External use xlink:href</td><td>Legacy renderer/browser external SVG-document request.</td></tr>
+<tr><td><a href="15-feimage.svg">15-feimage.svg</a></td><td>svg-resource</td><td>Filter feImage href</td><td>Image renderer may fetch while evaluating the filter.</td></tr>
+<tr><td><a href="16-script-href.svg">16-script-href.svg</a></td><td>browser-active</td><td>SVG script href</td><td>Normally browser document-mode only; this is not XXE.</td></tr>
+<tr><td><a href="17-script-xlink.svg">17-script-xlink.svg</a></td><td>browser-active</td><td>Legacy SVG script xlink:href</td><td>Normally browser document-mode only; this is not XXE.</td></tr>
+<tr><td><a href="18-foreignobject-img.svg">18-foreignobject-img.svg</a></td><td>browser-active</td><td>foreignObject HTML img</td><td>Browser or HTML-capable renderer request.</td></tr>
+<tr><td><a href="19-foreignobject-iframe.svg">19-foreignobject-iframe.svg</a></td><td>browser-active</td><td>foreignObject HTML iframe</td><td>Typically browser document-mode only.</td></tr>
+<tr><td><a href="20-foreignobject-object.svg">20-foreignobject-object.svg</a></td><td>browser-active</td><td>foreignObject HTML object</td><td>Typically browser document-mode only.</td></tr>
+<tr><td><a href="21-video-href.svg">21-video-href.svg</a></td><td>svg-resource</td><td>HTML video in foreignObject</td><td>Browser or multimedia-capable renderer request.</td></tr>
+<tr><td><a href="22-audio-href.svg">22-audio-href.svg</a></td><td>svg-resource</td><td>HTML audio in foreignObject</td><td>Browser or multimedia-capable renderer request.</td></tr>
+<tr><td><a href="23-cursor-href.svg">23-cursor-href.svg</a></td><td>svg-resource</td><td>CSS cursor URL</td><td>Interactive browser-only in most implementations.</td></tr>
+<tr><td><a href="24-xml-base-relative-image.svg">24-xml-base-relative-image.svg</a></td><td>svg-resource</td><td>xml:base plus relative image URL</td><td>Tests base-URI resolution by a renderer.</td></tr>
+<tr><td><a href="25-xxe-mime-xml.xml">25-xxe-mime-xml.xml</a></td><td>content-type</td><td>General entity with .xml extension</td><td>Same XML construct served under an XML-oriented MIME type.</td></tr>
+<tr><td><a href="26-xxe-mime-text.txt">26-xxe-mime-text.txt</a></td><td>content-type</td><td>General entity with .txt extension</td><td>Tests whether the receiver sniffs XML despite text/plain.</td></tr>
+<tr><td><a href="27-xxe-mime-html.html">27-xxe-mime-html.html</a></td><td>content-type</td><td>General entity with .html extension</td><td>Tests whether the receiver parses by content rather than MIME.</td></tr>
+<tr><td><a href="28-xxe-uppercase.SVG">28-xxe-uppercase.SVG</a></td><td>content-type</td><td>Uppercase SVG extension</td><td>Tests case-sensitive extension filters.</td></tr>
+<tr><td><a href="29-xxe-utf8-bom.svg">29-xxe-utf8-bom.svg</a></td><td>encoding</td><td>UTF-8 BOM plus general entity</td><td>Tests BOM-tolerant XML parsing.</td></tr>
+<tr><td><a href="30-xxe-utf16le.svg">30-xxe-utf16le.svg</a></td><td>encoding</td><td>UTF-16LE BOM plus general entity</td><td>Tests UTF-16LE XML parsing.</td></tr>
+<tr><td><a href="31-xxe-utf16be.svg">31-xxe-utf16be.svg</a></td><td>encoding</td><td>UTF-16BE BOM plus general entity</td><td>Tests UTF-16BE XML parsing.</td></tr>
+<tr><td><a href="32-xxe-compressed.svgz">32-xxe-compressed.svgz</a></td><td>encoding</td><td>Gzip-compressed SVG with general entity</td><td>Tests SVGZ decompression followed by XML parsing.</td></tr>
+<tr><td><a href="external-subset.dtd">external-subset.dtd</a></td><td>support</td><td>External DTD used by case 02</td><td>Supporting DTD.</td></tr>
+<tr><td><a href="parameter-entity.dtd">parameter-entity.dtd</a></td><td>support</td><td>External parameter-entity DTD used by case 03</td><td>Supporting DTD.</td></tr>
+<tr><td><a href="external-style.css">external-style.css</a></td><td>support</td><td>External CSS callback</td><td>Supporting stylesheet.</td></tr>
+<tr><td><a href="browser-script.js">browser-script.js</a></td><td>support</td><td>Browser-only script callback</td><td>Supporting browser canary; not an XXE test.</td></tr></tbody></table></body></html>
