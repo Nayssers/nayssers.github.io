@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pendo installation verification</title>
   <script>
+    (function () {
+      var events = [];
+      function record(kind, value) {
+        var row = { at: new Date().toISOString(), kind: kind, value: value };
+        events.push(row);
+        try { localStorage.setItem('pendo-preview-events', JSON.stringify(events)); } catch (_) {}
+        var output = document.getElementById('preview-events');
+        if (output) output.textContent = JSON.stringify(events, null, 2);
+      }
+      window.alert = function (value) { record('alert', String(value)); };
+      window.addEventListener('message', function (event) {
+        var serialized;
+        try { serialized = JSON.parse(JSON.stringify(event.data)); }
+        catch (_) { serialized = String(event.data); }
+        record('message', { origin: event.origin, data: serialized });
+      });
+      window.addEventListener('error', function (event) {
+        record('error', String(event.message || event.error || 'unknown'));
+      });
+      window.__previewEvents = events;
+    })();
+  </script>
+  <script>
     (function (apiKey) {
       (function (p, e, n, d, o) {
         var v, w, x, y, z;
@@ -33,5 +56,6 @@
 <body>
   <h1>Pendo installation verification</h1>
   <p>The Pendo web agent is installed on this page.</p>
+  <pre id="preview-events">[]</pre>
 </body>
 </html>
