@@ -1,39 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>CASI origin reachability probe</title>
-<style>body{font:18px monospace;white-space:pre-wrap;padding:24px}</style>
-<h1>CASI SAFE ORIGIN REACHABILITY PROBE</h1>
-<pre id="result">STARTING READ-ONLY IMAGE TESTS</pre>
-<script>
-const output = document.getElementById('result');
-const states = {
-  PUBLIC_EDGE_CONTROL: 'PENDING',
-  DIRECT_ORIGIN_238: 'PENDING'
-};
-
-function render() {
-  output.textContent = Object.entries(states)
-    .map(([name, state]) => `${name}: ${state}`)
-    .join('\n');
-}
-
-function probe(name, url) {
-  const image = new Image();
-  let finished = false;
-  const finish = state => {
-    if (finished) return;
-    finished = true;
-    states[name] = state;
-    render();
-  };
-
-  image.onload = () => finish(`LOADED ${image.naturalWidth}x${image.naturalHeight}`);
-  image.onerror = () => finish('NETWORK_OR_HTTP_ERROR');
-  setTimeout(() => finish('TIMEOUT'), 8000);
-  image.src = `${url}?origin_probe=20261109T0249Z`;
-}
-
-render();
-probe('PUBLIC_EDGE_CONTROL', 'https://casi.cat.com/backend/favicon.php');
-probe('DIRECT_ORIGIN_238', 'https://casi-ori.cat.com/backend/favicon.php');
-</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>CASI probe disabled</title>
+<style>body{font:18px monospace;padding:24px}</style>
+<h1>CASI SAFE PROBE DISABLED</h1>
+<p>This page makes no network requests and executes no JavaScript.</p>
